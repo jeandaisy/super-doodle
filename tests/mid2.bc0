@@ -1,0 +1,64 @@
+C0 C0 FF EE       # magic number
+00 13             # version 9, arch = 1 (64 bits)
+
+00 00             # int pool count
+# int pool
+
+00 00             # string pool total size
+# string pool
+
+00 01             # function count
+# function_pool
+
+#<main>
+00 00             # number of arguments = 0
+00 0B             # number of local variables = 11
+00 4E             # code length = 78 bytes
+10 01    # bipush 1        # 1
+36 00    # vstore 0        # a_1 = 1;
+10 02    # bipush 2        # 2
+36 01    # vstore 1        # a_2 = 2;
+10 03    # bipush 3        # 3
+36 02    # vstore 2        # a_3 = 3;
+10 04    # bipush 4        # 4
+36 03    # vstore 3        # a_4 = 4;
+10 05    # bipush 5        # 5
+36 04    # vstore 4        # a_5 = 5;
+10 06    # bipush 6        # 6
+36 05    # vstore 5        # a_6 = 6;
+10 07    # bipush 7        # 7
+36 06    # vstore 6        # a_7 = 7;
+10 08    # bipush 8        # 8
+36 07    # vstore 7        # a_8 = 8;
+10 09    # bipush 9        # 9
+36 08    # vstore 8        # a_9 = 9;
+10 0A    # bipush 10       # 10
+36 09    # vstore 9        # a_10 = 10;
+10 00    # bipush 0        # 0
+36 0A    # vstore 10       # k = 0;
+15 00    # vload 0         # a_1
+15 01    # vload 1         # a_2
+60       # iadd            # (a_1 + a_2)
+15 02    # vload 2         # a_3
+60       # iadd            # ((a_1 + a_2) + a_3)
+15 03    # vload 3         # a_4
+60       # iadd            # (((a_1 + a_2) + a_3) + a_4)
+15 04    # vload 4         # a_5
+60       # iadd            # ((((a_1 + a_2) + a_3) + a_4) + a_5)
+15 05    # vload 5         # a_6
+60       # iadd            # (((((a_1 + a_2) + a_3) + a_4) + a_5) + a_6)
+15 06    # vload 6         # a_7
+60       # iadd            # ((((((a_1 + a_2) + a_3) + a_4) + a_5) + a_6) + a_7)
+15 07    # vload 7         # a_8
+60       # iadd            # (((((((a_1 + a_2) + a_3) + a_4) + a_5) + a_6) + a_7) + a_8)
+15 08    # vload 8         # a_9
+60       # iadd            # ((((((((a_1 + a_2) + a_3) + a_4) + a_5) + a_6) + a_7) + a_8) + a_9)
+15 09    # vload 9         # a_10
+60       # iadd            # (((((((((a_1 + a_2) + a_3) + a_4) + a_5) + a_6) + a_7) + a_8) + a_9) + a_10)
+36 0A    # vstore 10       # k = (((((((((a_1 + a_2) + a_3) + a_4) + a_5) + a_6) + a_7) + a_8) + a_9) + a_10);
+15 0A    # vload 10        # k
+B0       # return          # 
+
+00 00             # native count
+# native pool
+

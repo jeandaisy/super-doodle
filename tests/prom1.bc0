@@ -1,0 +1,229 @@
+C0 C0 FF EE       # magic number
+00 13             # version 9, arch = 1 (64 bits)
+
+00 05             # int pool count
+# int pool
+7F FF FF FF
+80 00 00 00
+00 01 00 00
+00 01 00 00
+00 00 BB FA
+
+00 00             # string pool total size
+# string pool
+
+00 09             # function count
+# function_pool
+
+#<main>
+00 00             # number of arguments = 0
+00 04             # number of local variables = 4
+00 2B             # code length = 43 bytes
+BB 18    # new 24          # alloc(struct gap_buffer)
+36 00    # vstore 0        # gb = alloc(struct gap_buffer);
+15 00    # vload 0         # gb
+62 00    # aaddf 0         # &gb->limit
+13 00 02 # ildc 2          # c[2] = 65536
+4E       # imstore         # gb->limit = 65536;
+15 00    # vload 0         # gb
+62 08    # aaddf 8         # &gb->buffer
+13 00 03 # ildc 3          # c[3] = 65536
+BC 01    # newarray 1      # alloc_array(char, 65536)
+4F       # amstore         # gb->buffer = alloc_array(char, 65536);
+15 00    # vload 0         # gb
+62 10    # aaddf 16        # &gb->gap_start
+13 00 04 # ildc 4          # c[4] = 48122
+4E       # imstore         # gb->gap_start = 48122;
+15 00    # vload 0         # gb
+62 14    # aaddf 20        # &gb->gap_end
+15 00    # vload 0         # gb
+62 10    # aaddf 16        # &gb->gap_start
+2E       # imload          # gb->gap_start
+4E       # imstore         # gb->gap_end = gb->gap_start;
+10 01    # bipush 1        # 1
+B0       # return          # 
+
+
+#<int_size>
+00 00             # number of arguments = 0
+00 00             # number of local variables = 0
+00 03             # code length = 3 bytes
+10 04    # bipush 4        # 4
+B0       # return          # 
+
+
+#<int_max>
+00 00             # number of arguments = 0
+00 00             # number of local variables = 0
+00 04             # code length = 4 bytes
+13 00 00 # ildc 0          # c[0] = 2147483647
+B0       # return          # 
+
+
+#<int_min>
+00 00             # number of arguments = 0
+00 00             # number of local variables = 0
+00 04             # code length = 4 bytes
+13 00 01 # ildc 1          # c[1] = -2147483648
+B0       # return          # 
+
+
+#<abs>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 15             # code length = 21 bytes
+15 00    # vload 0         # x
+10 00    # bipush 0        # 0
+A1 00 06 # if_icmplt +6    # if (x < 0) goto <06:cond_true>
+A7 00 0B # goto +11        # goto <07:cond_false>
+# <06:cond_true>
+10 00    # bipush 0        # 
+15 00    # vload 0         # x
+64       # isub            # -(x)
+A7 00 05 # goto +5         # goto <08:cond_end>
+# <07:cond_false>
+15 00    # vload 0         # x
+# <08:cond_end>
+B0       # return          # 
+
+
+#<max>
+00 02             # number of arguments = 2
+00 02             # number of local variables = 2
+00 12             # code length = 18 bytes
+15 00    # vload 0         # x
+15 01    # vload 1         # y
+A3 00 06 # if_icmpgt +6    # if (x > y) goto <00:cond_true>
+A7 00 08 # goto +8         # goto <01:cond_false>
+# <00:cond_true>
+15 00    # vload 0         # x
+A7 00 05 # goto +5         # goto <02:cond_end>
+# <01:cond_false>
+15 01    # vload 1         # y
+# <02:cond_end>
+B0       # return          # 
+
+
+#<min>
+00 02             # number of arguments = 2
+00 02             # number of local variables = 2
+00 12             # code length = 18 bytes
+15 00    # vload 0         # x
+15 01    # vload 1         # y
+A3 00 06 # if_icmpgt +6    # if (x > y) goto <03:cond_true>
+A7 00 08 # goto +8         # goto <04:cond_false>
+# <03:cond_true>
+15 01    # vload 1         # y
+A7 00 05 # goto +5         # goto <05:cond_end>
+# <04:cond_false>
+15 00    # vload 0         # x
+# <05:cond_end>
+B0       # return          # 
+
+
+#<int2hex>
+00 01             # number of arguments = 1
+00 04             # number of local variables = 4
+00 52             # code length = 82 bytes
+10 02    # bipush 2        # 2
+B8 00 01 # invokestatic 1  # int_size()
+68       # imul            # (2 * int_size())
+36 01    # vstore 1        # digits = (2 * int_size());
+15 01    # vload 1         # digits
+10 01    # bipush 1        # 1
+60       # iadd            # (digits + 1)
+BC 01    # newarray 1      # alloc_array(char, (digits + 1))
+36 02    # vstore 2        # s = alloc_array(char, (digits + 1));
+15 02    # vload 2         # s
+15 01    # vload 1         # digits
+63       # aadds           # &s[digits]
+10 00    # bipush 0        # '\000'
+55       # cmstore         # s[digits] = '\0';
+10 00    # bipush 0        # 0
+36 03    # vstore 3        # i = 0;
+# <17:loop>
+15 03    # vload 3         # i
+15 01    # vload 1         # digits
+A1 00 06 # if_icmplt +6    # if (i < digits) goto <18:body>
+A7 00 28 # goto +40        # goto <19:exit>
+# <18:body>
+15 02    # vload 2         # s
+15 01    # vload 1         # digits
+15 03    # vload 3         # i
+64       # isub            # (digits - i)
+10 01    # bipush 1        # 1
+64       # isub            # ((digits - i) - 1)
+63       # aadds           # &s[((digits - i) - 1)]
+15 00    # vload 0         # x
+10 0F    # bipush 15       # 15
+7E       # iand            # (x & 15)
+B8 00 08 # invokestatic 8  # hexdig2char((x & 15))
+55       # cmstore         # s[((digits - i) - 1)] = hexdig2char((x & 15));
+15 00    # vload 0         # x
+10 04    # bipush 4        # 4
+7A       # ishr            # (x >> 4)
+36 00    # vstore 0        # x = (x >> 4);
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF D4 # goto -44        # goto <17:loop>
+# <19:exit>
+15 02    # vload 2         # s
+B7 00 02 # invokenative 2  # string_from_chararray(s)
+B0       # return          # 
+
+
+#<hexdig2char>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 4C             # code length = 76 bytes
+10 00    # bipush 0        # 0
+15 00    # vload 0         # d
+A4 00 06 # if_icmple +6    # if (0 <= d) goto <12:and>
+A7 00 1C # goto +28        # goto <10:else>
+# <12:and>
+15 00    # vload 0         # d
+10 0A    # bipush 10       # 10
+A1 00 06 # if_icmplt +6    # if (d < 10) goto <09:then>
+A7 00 12 # goto +18        # goto <10:else>
+# <09:then>
+10 30    # bipush 48       # '0'
+B7 00 01 # invokenative 1  # char_ord('0')
+15 00    # vload 0         # d
+60       # iadd            # (char_ord('0') + d)
+B7 00 00 # invokenative 0  # char_chr((char_ord('0') + d))
+B0       # return          # 
+A7 00 2C # goto +44        # goto <11:endif>
+# <10:else>
+10 0A    # bipush 10       # 10
+15 00    # vload 0         # d
+A4 00 06 # if_icmple +6    # if (10 <= d) goto <16:and>
+A7 00 1F # goto +31        # goto <14:else>
+# <16:and>
+15 00    # vload 0         # d
+10 10    # bipush 16       # 16
+A1 00 06 # if_icmplt +6    # if (d < 16) goto <13:then>
+A7 00 15 # goto +21        # goto <14:else>
+# <13:then>
+10 41    # bipush 65       # 'A'
+B7 00 01 # invokenative 1  # char_ord('A')
+15 00    # vload 0         # d
+10 0A    # bipush 10       # 10
+64       # isub            # (d - 10)
+60       # iadd            # (char_ord('A') + (d - 10))
+B7 00 00 # invokenative 0  # char_chr((char_ord('A') + (d - 10)))
+B0       # return          # 
+A7 00 06 # goto +6         # goto <15:endif>
+# <14:else>
+10 3F    # bipush 63       # '\?'
+B0       # return          # 
+# <15:endif>
+# <11:endif>
+
+00 03             # native count
+# native pool
+00 01 00 5B       # char_chr
+00 01 00 5C       # char_ord
+00 01 00 60       # string_from_chararray
+

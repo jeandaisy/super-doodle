@@ -1,0 +1,18 @@
+int main()
+{
+	int a_1 = 1;
+	int a_2 = 2;
+	int a_3 = 3;
+    int a_4 = 4;
+    int a_5 = 5;
+    int a_6 = 6;
+    int a_7 = 7;
+    int a_8 = 8;
+    int a_9 = 9;
+    int a_10 = 10;
+
+    int k = 0;
+	k = a_1+a_2+a_3+a_4+a_5+a_6+a_7+a_8+a_9+a_10;
+	return k;
+}
+

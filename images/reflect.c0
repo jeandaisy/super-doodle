@@ -1,0 +1,82 @@
+/* Assumes that pixel is already defined to be an int (pixel.c0) */
+/* typedef int pixel; */
+
+#use <util>
+
+pixel_t[] reflect (pixel_t[] A, int width, int height)
+//@requires width > 0 && height > 0 && width <= int_max() / height;
+//@requires \length(A) == width*height;
+//@ensures \result != A;
+//@ensures \length(\result) == 4*\length(A);
+{
+  pixel_t[] B = alloc_array(pixel_t, 2*width*2*height);
+
+//left-up corner
+  for (int j = 0; j < height; j++)
+    //@loop_invariant 0 <= j;
+    {
+      for (int i = 0; i < width; i++)
+        //@loop_invariant 0 <= i && i <= width;
+        {
+          //@assert 0 <= j && j < height && 0 <= i && i < width;
+          int index_A = get_index(j, i, width, height);
+          int index_B = get_index(j, 2*width-i-1, 2*width, 2*height);            
+          //@assert 0 <= index_A && index_A < \length(A);
+          //@assert 0 <= index_B && index_B < \length(B);
+          //@assert 4*\length(A) == \length(B);
+          B[index_B] = A[index_A];
+        }
+    }
+
+//right-up corner
+  for (int j = 0; j < height; j++)
+    //@loop_invariant 0 <= j;
+    {
+      for (int i = 0; i < width; i++)
+        //@loop_invariant 0 <= i && i <=width;
+        {
+          //@assert 0 <= j && j < height && 0 <= i && i < width;
+          int index_A = get_index(j, i, width, height);
+          int index_B = get_index(j, i+width, 2*width, 2*height);
+          //@assert 0 <= index_A && index_A < \length(A);
+          //@assert 0 <= index_B && index_B < \length(B);
+          //@assert 4*\length(A) == \length(B);
+          B[index_B] = A[index_A];
+        }
+    }
+
+//left-bottom corner
+  for (int j = 0; j < height; j++)
+    //@loop_invariant 0 <= j;
+    {
+      for (int i = 0; i < width; i++)
+        //@loop_invariant 0 <= i && i <=width;
+        {
+          //@assert 0 <= j && j < height && 0 <= i && i < width;
+          int index_A = get_index(j, i, width, height);
+          int index_B = get_index(2*height-1-j, width-i, 2*width, 2*height);
+          //@assert 0 <= index_A && index_A < \length(A);
+          //@assert 0 <= index_B && index_B < \length(B);
+          //@assert 4*\length(A) == \length(B);
+          B[index_B] = A[index_A];
+        }
+    }
+
+//right-bottom corner
+  for (int j = 0; j < height; j++)
+    //@loop_invariant 0 <= j;
+    {
+      for (int i = 0; i < width; i++)
+        //@loop_invariant 0 <= i && i <=width;
+        {
+          //@assert 0 <= j && j < height && 0 <= i && i < width;
+          int index_A = get_index(j, i, width, height);
+          int index_B = get_index(2*height-1-j, width+i, 2*width, 2*height);
+          //@assert 0 <= index_A && index_A < \length(A);
+          //@assert 0 <= index_B && index_B < \length(B);
+          //@assert 4*\length(A) == \length(B);
+          B[index_B] = A[index_A];
+        }
+    }
+  return B;
+}

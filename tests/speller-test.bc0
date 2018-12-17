@@ -1,0 +1,2651 @@
+C0 C0 FF EE       # magic number
+00 13             # version 9, arch = 1 (64 bits)
+
+00 02             # int pool count
+# int pool
+7F FF FF FF
+80 00 00 00
+
+01 00             # string pool total size
+# string pool
+2E 2E 2E 00  # "..."
+00  # ""
+00  # ""
+43 61 6E 6E 6F 74 20 6F 70 65 6E 20 66 69 6C 65 20 27 00  # "Cannot open file \'"
+27 00  # "\'"
+00  # ""
+54 6F 6F 20 6D 61 6E 79 20 77 6F 72 64 73 20 69 6E 20 69 6E 70 75 74 20 66 69 6C 65 00  # "Too many words in input file"
+74 65 78 74 73 2F 73 6D 61 6C 6C 2D 64 69 63 74 2E 74 78 74 00  # "texts/small-dict.txt"
+68 65 20 66 6F 72 20 68 65 00  # "he for he"
+73 70 65 6C 6C 65 72 2D 74 65 73 74 2E 63 30 3A 32 35 2E 33 2D 32 35 2E 35 34 3A 20 61 73 73 65 72 74 20 66 61 69 6C 65 64 00  # "speller-test.c0:25.3-25.54: assert failed"
+73 70 65 6C 6C 65 72 2D 74 65 73 74 2E 63 30 3A 32 36 2E 33 2D 32 36 2E 35 33 3A 20 61 73 73 65 72 74 20 66 61 69 6C 65 64 00  # "speller-test.c0:26.3-26.53: assert failed"
+73 70 65 6C 6C 65 72 2D 74 65 73 74 2E 63 30 3A 32 37 2E 33 2D 32 37 2E 35 34 3A 20 61 73 73 65 72 74 20 66 61 69 6C 65 64 00  # "speller-test.c0:27.3-27.54: assert failed"
+73 70 65 6C 6C 65 72 2D 74 65 73 74 2E 63 30 3A 33 30 2E 33 2D 33 30 2E 36 35 3A 20 61 73 73 65 72 74 20 66 61 69 6C 65 64 00  # "speller-test.c0:30.3-30.65: assert failed"
+
+00 34             # function count
+# function_pool
+
+#<main>
+00 00             # number of arguments = 0
+00 0C             # number of local variables = 12
+00 A7             # code length = 167 bytes
+14 00 39 # aldc 57         # s[57] = "texts/small-dict.txt"
+B8 00 1E # invokestatic 30 # read_words("texts/small-dict.txt")
+36 00    # vstore 0        # B_1 = read_words("texts/small-dict.txt");
+15 00    # vload 0         # B_1
+B8 00 20 # invokestatic 32 # string_bundle_array(B_1)
+36 01    # vstore 1        # dict_1 = string_bundle_array(B_1);
+14 00 4E # aldc 78         # s[78] = "he for he"
+B7 00 11 # invokenative 17 # parse_tokens("he for he")
+36 02    # vstore 2        # A_1 = parse_tokens("he for he");
+15 00    # vload 0         # B_1
+B8 00 1F # invokestatic 31 # string_bundle_length(B_1)
+36 03    # vstore 3        # d_len = string_bundle_length(B_1);
+15 01    # vload 1         # dict_1
+15 03    # vload 3         # d_len
+15 02    # vload 2         # A_1
+10 00    # bipush 0        # 0
+63       # aadds           # &A_1[0]
+2F       # amload          # A_1[0]
+B8 00 2E # invokestatic 46 # check_word(dict_1, d_len, A_1[0])
+10 00    # bipush 0        # false
+9F 00 06 # if_cmpeq +6     # if (check_word(dict_1, d_len, A_1[0]) == false) goto <322:cond_true>
+A7 00 08 # goto +8         # goto <323:cond_false>
+# <322:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <324:cond_end>
+# <323:cond_false>
+10 00    # bipush 0        # false
+# <324:cond_end>
+14 00 58 # aldc 88         # s[88] = "speller-test.c0:25.3-25.54: assert failed"
+CF       # assert          # assert(check_word(dict_1, d_len, A_1[0]) == false) [failure message on stack]
+15 01    # vload 1         # dict_1
+15 03    # vload 3         # d_len
+15 02    # vload 2         # A_1
+10 01    # bipush 1        # 1
+63       # aadds           # &A_1[1]
+2F       # amload          # A_1[1]
+B8 00 2E # invokestatic 46 # check_word(dict_1, d_len, A_1[1])
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (check_word(dict_1, d_len, A_1[1]) == true) goto <325:cond_true>
+A7 00 08 # goto +8         # goto <326:cond_false>
+# <325:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <327:cond_end>
+# <326:cond_false>
+10 00    # bipush 0        # false
+# <327:cond_end>
+14 00 82 # aldc 130        # s[130] = "speller-test.c0:26.3-26.53: assert failed"
+CF       # assert          # assert(check_word(dict_1, d_len, A_1[1]) == true) [failure message on stack]
+15 01    # vload 1         # dict_1
+15 03    # vload 3         # d_len
+15 02    # vload 2         # A_1
+10 02    # bipush 2        # 2
+63       # aadds           # &A_1[2]
+2F       # amload          # A_1[2]
+B8 00 2E # invokestatic 46 # check_word(dict_1, d_len, A_1[2])
+10 00    # bipush 0        # false
+9F 00 06 # if_cmpeq +6     # if (check_word(dict_1, d_len, A_1[2]) == false) goto <328:cond_true>
+A7 00 08 # goto +8         # goto <329:cond_false>
+# <328:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <330:cond_end>
+# <329:cond_false>
+10 00    # bipush 0        # false
+# <330:cond_end>
+14 00 AC # aldc 172        # s[172] = "speller-test.c0:27.3-27.54: assert failed"
+CF       # assert          # assert(check_word(dict_1, d_len, A_1[2]) == false) [failure message on stack]
+10 05    # bipush 5        # 5
+BC 08    # newarray 8      # alloc_array(string, 5)
+36 04    # vstore 4        # miss_1 = alloc_array(string, 5);
+15 01    # vload 1         # dict_1
+15 03    # vload 3         # d_len
+15 02    # vload 2         # A_1
+10 03    # bipush 3        # 3
+15 04    # vload 4         # miss_1
+B8 00 33 # invokestatic 51 # check_text_better(dict_1, d_len, A_1, 3, miss_1)
+10 01    # bipush 1        # 1
+9F 00 06 # if_cmpeq +6     # if (check_text_better(dict_1, d_len, A_1, 3, miss_1) == 1) goto <331:cond_true>
+A7 00 08 # goto +8         # goto <332:cond_false>
+# <331:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <333:cond_end>
+# <332:cond_false>
+10 00    # bipush 0        # false
+# <333:cond_end>
+14 00 D6 # aldc 214        # s[214] = "speller-test.c0:30.3-30.65: assert failed"
+CF       # assert          # assert(check_text_better(dict_1, d_len, A_1, 3, miss_1) == 1) [failure message on stack]
+10 00    # bipush 0        # 0
+B0       # return          # 
+
+
+#<is_in>
+00 04             # number of arguments = 4
+00 05             # number of local variables = 5
+00 34             # code length = 52 bytes
+15 02    # vload 2         # lo
+36 04    # vstore 4        # i = lo;
+# <00:loop>
+15 04    # vload 4         # i
+15 03    # vload 3         # hi
+A1 00 06 # if_icmplt +6    # if (i < hi) goto <01:body>
+A7 00 26 # goto +38        # goto <02:exit>
+# <01:body>
+15 00    # vload 0         # x
+15 01    # vload 1         # A
+15 04    # vload 4         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+B7 00 00 # invokenative 0  # string_equal(x, A[i])
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (string_equal(x, A[i]) == true) goto <03:then>
+A7 00 09 # goto +9         # goto <04:else>
+# <03:then>
+10 01    # bipush 1        # true
+B0       # return          # 
+A7 00 03 # goto +3         # goto <05:endif>
+# <04:else>
+# <05:endif>
+15 04    # vload 4         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # i += 1;
+A7 FF D6 # goto -42        # goto <00:loop>
+# <02:exit>
+10 00    # bipush 0        # false
+B0       # return          # 
+
+
+#<is_sorted>
+00 03             # number of arguments = 3
+00 05             # number of local variables = 5
+00 3E             # code length = 62 bytes
+15 01    # vload 1         # lo
+36 03    # vstore 3        # i = lo;
+# <06:loop>
+15 03    # vload 3         # i
+15 02    # vload 2         # hi
+10 01    # bipush 1        # 1
+64       # isub            # (hi - 1)
+A1 00 06 # if_icmplt +6    # if (i < (hi - 1)) goto <07:body>
+A7 00 2D # goto +45        # goto <08:exit>
+# <07:body>
+15 00    # vload 0         # A
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # (i + 1)
+63       # aadds           # &A[(i + 1)]
+2F       # amload          # A[(i + 1)]
+15 00    # vload 0         # A
+15 03    # vload 3         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+B7 00 01 # invokenative 1  # string_compare(A[(i + 1)], A[i])
+10 00    # bipush 0        # 0
+A2 00 0C # if_icmpge +12   # if (string_compare(A[(i + 1)], A[i]) >= 0) goto <10:else>
+A7 00 03 # goto +3         # goto <09:then>
+# <09:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <11:endif>
+# <10:else>
+# <11:endif>
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF CC # goto -52        # goto <06:loop>
+# <08:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<no_dupes>
+00 03             # number of arguments = 3
+00 05             # number of local variables = 5
+00 53             # code length = 83 bytes
+15 01    # vload 1         # lo
+36 03    # vstore 3        # i = lo;
+# <12:loop>
+15 03    # vload 3         # i
+15 02    # vload 2         # hi
+A1 00 06 # if_icmplt +6    # if (i < hi) goto <13:body>
+A7 00 45 # goto +69        # goto <14:exit>
+# <13:body>
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # (i + 1)
+36 04    # vstore 4        # j = (i + 1);
+# <15:loop>
+15 04    # vload 4         # j
+15 02    # vload 2         # hi
+A1 00 06 # if_icmplt +6    # if (j < hi) goto <16:body>
+A7 00 2A # goto +42        # goto <17:exit>
+# <16:body>
+15 00    # vload 0         # A
+15 04    # vload 4         # j
+63       # aadds           # &A[j]
+2F       # amload          # A[j]
+15 00    # vload 0         # A
+15 03    # vload 3         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+B7 00 00 # invokenative 0  # string_equal(A[j], A[i])
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (string_equal(A[j], A[i]) == true) goto <18:then>
+A7 00 09 # goto +9         # goto <19:else>
+# <18:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <20:endif>
+# <19:else>
+# <20:endif>
+15 04    # vload 4         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # j += 1;
+A7 FF D2 # goto -46        # goto <15:loop>
+# <17:exit>
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF B7 # goto -73        # goto <12:loop>
+# <14:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<swap>
+00 03             # number of arguments = 3
+00 05             # number of local variables = 5
+00 1F             # code length = 31 bytes
+15 00    # vload 0         # A
+15 01    # vload 1         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+36 03    # vstore 3        # tmp = A[i];
+15 00    # vload 0         # A
+15 01    # vload 1         # i
+63       # aadds           # &A[i]
+15 00    # vload 0         # A
+15 02    # vload 2         # j
+63       # aadds           # &A[j]
+2F       # amload          # A[j]
+4F       # amstore         # A[i] = A[j];
+15 00    # vload 0         # A
+15 02    # vload 2         # j
+63       # aadds           # &A[j]
+15 03    # vload 3         # tmp
+4F       # amstore         # A[j] = tmp;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<gt_seg>
+00 04             # number of arguments = 4
+00 05             # number of local variables = 5
+00 34             # code length = 52 bytes
+15 02    # vload 2         # lo
+36 04    # vstore 4        # i = lo;
+# <21:loop>
+15 04    # vload 4         # i
+15 03    # vload 3         # hi
+A1 00 06 # if_icmplt +6    # if (i < hi) goto <22:body>
+A7 00 26 # goto +38        # goto <23:exit>
+# <22:body>
+15 00    # vload 0         # x
+15 01    # vload 1         # A
+15 04    # vload 4         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+B7 00 01 # invokenative 1  # string_compare(x, A[i])
+10 00    # bipush 0        # 0
+A3 00 0C # if_icmpgt +12   # if (string_compare(x, A[i]) > 0) goto <25:else>
+A7 00 03 # goto +3         # goto <24:then>
+# <24:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <26:endif>
+# <25:else>
+# <26:endif>
+15 04    # vload 4         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # i += 1;
+A7 FF D6 # goto -42        # goto <21:loop>
+# <23:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<ge_seg>
+00 04             # number of arguments = 4
+00 05             # number of local variables = 5
+00 34             # code length = 52 bytes
+15 02    # vload 2         # lo
+36 04    # vstore 4        # i = lo;
+# <27:loop>
+15 04    # vload 4         # i
+15 03    # vload 3         # hi
+A1 00 06 # if_icmplt +6    # if (i < hi) goto <28:body>
+A7 00 26 # goto +38        # goto <29:exit>
+# <28:body>
+15 00    # vload 0         # x
+15 01    # vload 1         # A
+15 04    # vload 4         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+B7 00 01 # invokenative 1  # string_compare(x, A[i])
+10 00    # bipush 0        # 0
+A2 00 0C # if_icmpge +12   # if (string_compare(x, A[i]) >= 0) goto <31:else>
+A7 00 03 # goto +3         # goto <30:then>
+# <30:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <32:endif>
+# <31:else>
+# <32:endif>
+15 04    # vload 4         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # i += 1;
+A7 FF D6 # goto -42        # goto <27:loop>
+# <29:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<lt_seg>
+00 04             # number of arguments = 4
+00 05             # number of local variables = 5
+00 34             # code length = 52 bytes
+15 02    # vload 2         # lo
+36 04    # vstore 4        # i = lo;
+# <33:loop>
+15 04    # vload 4         # i
+15 03    # vload 3         # hi
+A1 00 06 # if_icmplt +6    # if (i < hi) goto <34:body>
+A7 00 26 # goto +38        # goto <35:exit>
+# <34:body>
+15 00    # vload 0         # x
+15 01    # vload 1         # A
+15 04    # vload 4         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+B7 00 01 # invokenative 1  # string_compare(x, A[i])
+10 00    # bipush 0        # 0
+A1 00 0C # if_icmplt +12   # if (string_compare(x, A[i]) < 0) goto <37:else>
+A7 00 03 # goto +3         # goto <36:then>
+# <36:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <38:endif>
+# <37:else>
+# <38:endif>
+15 04    # vload 4         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # i += 1;
+A7 FF D6 # goto -42        # goto <33:loop>
+# <35:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<le_seg>
+00 04             # number of arguments = 4
+00 05             # number of local variables = 5
+00 34             # code length = 52 bytes
+15 02    # vload 2         # lo
+36 04    # vstore 4        # i = lo;
+# <39:loop>
+15 04    # vload 4         # i
+15 03    # vload 3         # hi
+A1 00 06 # if_icmplt +6    # if (i < hi) goto <40:body>
+A7 00 26 # goto +38        # goto <41:exit>
+# <40:body>
+15 00    # vload 0         # x
+15 01    # vload 1         # A
+15 04    # vload 4         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+B7 00 01 # invokenative 1  # string_compare(x, A[i])
+10 00    # bipush 0        # 0
+A4 00 0C # if_icmple +12   # if (string_compare(x, A[i]) <= 0) goto <43:else>
+A7 00 03 # goto +3         # goto <42:then>
+# <42:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <44:endif>
+# <43:else>
+# <44:endif>
+15 04    # vload 4         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # i += 1;
+A7 FF D6 # goto -42        # goto <39:loop>
+# <41:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<gt_segs>
+00 06             # number of arguments = 6
+00 08             # number of local variables = 8
+00 50             # code length = 80 bytes
+15 01    # vload 1         # lo1
+36 06    # vstore 6        # i = lo1;
+# <45:loop>
+15 06    # vload 6         # i
+15 02    # vload 2         # hi1
+A1 00 06 # if_icmplt +6    # if (i < hi1) goto <46:body>
+A7 00 42 # goto +66        # goto <47:exit>
+# <46:body>
+15 04    # vload 4         # lo2
+36 07    # vstore 7        # j = lo2;
+# <48:loop>
+15 07    # vload 7         # j
+15 05    # vload 5         # hi2
+A1 00 06 # if_icmplt +6    # if (j < hi2) goto <49:body>
+A7 00 2A # goto +42        # goto <50:exit>
+# <49:body>
+15 00    # vload 0         # A
+15 06    # vload 6         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+15 03    # vload 3         # B
+15 07    # vload 7         # j
+63       # aadds           # &B[j]
+2F       # amload          # B[j]
+B7 00 01 # invokenative 1  # string_compare(A[i], B[j])
+10 00    # bipush 0        # 0
+A3 00 0C # if_icmpgt +12   # if (string_compare(A[i], B[j]) > 0) goto <52:else>
+A7 00 03 # goto +3         # goto <51:then>
+# <51:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <53:endif>
+# <52:else>
+# <53:endif>
+15 07    # vload 7         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # j += 1;
+A7 FF D2 # goto -46        # goto <48:loop>
+# <50:exit>
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # i += 1;
+A7 FF BA # goto -70        # goto <45:loop>
+# <47:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<ge_segs>
+00 06             # number of arguments = 6
+00 08             # number of local variables = 8
+00 50             # code length = 80 bytes
+15 01    # vload 1         # lo1
+36 06    # vstore 6        # i = lo1;
+# <54:loop>
+15 06    # vload 6         # i
+15 02    # vload 2         # hi1
+A1 00 06 # if_icmplt +6    # if (i < hi1) goto <55:body>
+A7 00 42 # goto +66        # goto <56:exit>
+# <55:body>
+15 04    # vload 4         # lo2
+36 07    # vstore 7        # j = lo2;
+# <57:loop>
+15 07    # vload 7         # j
+15 05    # vload 5         # hi2
+A1 00 06 # if_icmplt +6    # if (j < hi2) goto <58:body>
+A7 00 2A # goto +42        # goto <59:exit>
+# <58:body>
+15 00    # vload 0         # A
+15 06    # vload 6         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+15 03    # vload 3         # B
+15 07    # vload 7         # j
+63       # aadds           # &B[j]
+2F       # amload          # B[j]
+B7 00 01 # invokenative 1  # string_compare(A[i], B[j])
+10 00    # bipush 0        # 0
+A2 00 0C # if_icmpge +12   # if (string_compare(A[i], B[j]) >= 0) goto <61:else>
+A7 00 03 # goto +3         # goto <60:then>
+# <60:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <62:endif>
+# <61:else>
+# <62:endif>
+15 07    # vload 7         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # j += 1;
+A7 FF D2 # goto -46        # goto <57:loop>
+# <59:exit>
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # i += 1;
+A7 FF BA # goto -70        # goto <54:loop>
+# <56:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<lt_segs>
+00 06             # number of arguments = 6
+00 08             # number of local variables = 8
+00 50             # code length = 80 bytes
+15 01    # vload 1         # lo1
+36 06    # vstore 6        # i = lo1;
+# <63:loop>
+15 06    # vload 6         # i
+15 02    # vload 2         # hi1
+A1 00 06 # if_icmplt +6    # if (i < hi1) goto <64:body>
+A7 00 42 # goto +66        # goto <65:exit>
+# <64:body>
+15 04    # vload 4         # lo2
+36 07    # vstore 7        # j = lo2;
+# <66:loop>
+15 07    # vload 7         # j
+15 05    # vload 5         # hi2
+A1 00 06 # if_icmplt +6    # if (j < hi2) goto <67:body>
+A7 00 2A # goto +42        # goto <68:exit>
+# <67:body>
+15 00    # vload 0         # A
+15 06    # vload 6         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+15 03    # vload 3         # B
+15 07    # vload 7         # j
+63       # aadds           # &B[j]
+2F       # amload          # B[j]
+B7 00 01 # invokenative 1  # string_compare(A[i], B[j])
+10 00    # bipush 0        # 0
+A1 00 0C # if_icmplt +12   # if (string_compare(A[i], B[j]) < 0) goto <70:else>
+A7 00 03 # goto +3         # goto <69:then>
+# <69:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <71:endif>
+# <70:else>
+# <71:endif>
+15 07    # vload 7         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # j += 1;
+A7 FF D2 # goto -46        # goto <66:loop>
+# <68:exit>
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # i += 1;
+A7 FF BA # goto -70        # goto <63:loop>
+# <65:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<le_segs>
+00 06             # number of arguments = 6
+00 08             # number of local variables = 8
+00 50             # code length = 80 bytes
+15 01    # vload 1         # lo1
+36 06    # vstore 6        # i = lo1;
+# <72:loop>
+15 06    # vload 6         # i
+15 02    # vload 2         # hi1
+A1 00 06 # if_icmplt +6    # if (i < hi1) goto <73:body>
+A7 00 42 # goto +66        # goto <74:exit>
+# <73:body>
+15 04    # vload 4         # lo2
+36 07    # vstore 7        # j = lo2;
+# <75:loop>
+15 07    # vload 7         # j
+15 05    # vload 5         # hi2
+A1 00 06 # if_icmplt +6    # if (j < hi2) goto <76:body>
+A7 00 2A # goto +42        # goto <77:exit>
+# <76:body>
+15 00    # vload 0         # A
+15 06    # vload 6         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+15 03    # vload 3         # B
+15 07    # vload 7         # j
+63       # aadds           # &B[j]
+2F       # amload          # B[j]
+B7 00 01 # invokenative 1  # string_compare(A[i], B[j])
+10 00    # bipush 0        # 0
+A4 00 0C # if_icmple +12   # if (string_compare(A[i], B[j]) <= 0) goto <79:else>
+A7 00 03 # goto +3         # goto <78:then>
+# <78:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <80:endif>
+# <79:else>
+# <80:endif>
+15 07    # vload 7         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # j += 1;
+A7 FF D2 # goto -46        # goto <75:loop>
+# <77:exit>
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # i += 1;
+A7 FF BA # goto -70        # goto <72:loop>
+# <74:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<print_array>
+00 02             # number of arguments = 2
+00 08             # number of local variables = 8
+00 2C             # code length = 44 bytes
+10 00    # bipush 0        # 0
+36 02    # vstore 2        # i = 0;
+# <81:loop>
+15 02    # vload 2         # i
+15 01    # vload 1         # n
+A1 00 06 # if_icmplt +6    # if (i < n) goto <82:body>
+A7 00 1E # goto +30        # goto <83:exit>
+# <82:body>
+15 00    # vload 0         # A
+15 02    # vload 2         # i
+63       # aadds           # &A[i]
+2E       # imload          # A[i]
+B7 00 02 # invokenative 2  # printint(A[i])
+57       # pop             # (ignore result)
+14 00 00 # aldc 0          # s[0] = "..."
+B7 00 03 # invokenative 3  # println("...")
+57       # pop             # (ignore result)
+15 02    # vload 2         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 02    # vstore 2        # i += 1;
+A7 FF DE # goto -34        # goto <81:loop>
+# <83:exit>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<tokenize>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 E3             # code length = 227 bytes
+15 00    # vload 0         # s
+B7 00 04 # invokenative 4  # string_length(s)
+36 01    # vstore 1        # len = string_length(s);
+15 01    # vload 1         # len
+10 00    # bipush 0        # 0
+9F 00 06 # if_cmpeq +6     # if (len == 0) goto <84:then>
+A7 00 21 # goto +33        # goto <85:else>
+# <84:then>
+10 00    # bipush 0        # 0
+BC 08    # newarray 8      # alloc_array(string, 0)
+36 02    # vstore 2        # A = alloc_array(string, 0);
+BB 10    # new 16          # alloc(struct arr_wrapper)
+36 03    # vstore 3        # res = alloc(struct arr_wrapper);
+15 03    # vload 3         # res
+62 00    # aaddf 0         # &res->len
+10 00    # bipush 0        # 0
+4E       # imstore         # res->len = 0;
+15 03    # vload 3         # res
+62 08    # aaddf 8         # &res->arr
+15 02    # vload 2         # A
+4F       # amstore         # res->arr = A;
+15 03    # vload 3         # res
+B0       # return          # 
+A7 00 03 # goto +3         # goto <86:endif>
+# <85:else>
+# <86:endif>
+10 00    # bipush 0        # 0
+36 02    # vstore 2        # count = 0;
+10 00    # bipush 0        # 0
+36 03    # vstore 3        # i = 0;
+# <87:loop>
+15 03    # vload 3         # i
+15 01    # vload 1         # len
+A1 00 06 # if_icmplt +6    # if (i < len) goto <88:body>
+A7 00 26 # goto +38        # goto <89:exit>
+# <88:body>
+15 00    # vload 0         # s
+15 03    # vload 3         # i
+B7 00 05 # invokenative 5  # string_charat(s, i)
+10 2C    # bipush 44       # ','
+9F 00 06 # if_cmpeq +6     # if (string_charat(s, i) == ',') goto <90:then>
+A7 00 0D # goto +13        # goto <91:else>
+# <90:then>
+15 02    # vload 2         # count
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 02    # vstore 2        # count += 1;
+A7 00 03 # goto +3         # goto <92:endif>
+# <91:else>
+# <92:endif>
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF D6 # goto -42        # goto <87:loop>
+# <89:exit>
+15 02    # vload 2         # count
+10 01    # bipush 1        # 1
+60       # iadd            # (count + 1)
+BC 08    # newarray 8      # alloc_array(string, (count + 1))
+36 03    # vstore 3        # A = alloc_array(string, (count + 1));
+10 00    # bipush 0        # 0
+36 04    # vstore 4        # idx = 0;
+10 00    # bipush 0        # 0
+36 05    # vstore 5        # last = 0;
+10 00    # bipush 0        # 0
+36 06    # vstore 6        # i = 0;
+# <93:loop>
+15 06    # vload 6         # i
+15 01    # vload 1         # len
+A1 00 06 # if_icmplt +6    # if (i < len) goto <94:body>
+A7 00 3C # goto +60        # goto <95:exit>
+# <94:body>
+15 00    # vload 0         # s
+15 06    # vload 6         # i
+B7 00 05 # invokenative 5  # string_charat(s, i)
+10 2C    # bipush 44       # ','
+9F 00 06 # if_cmpeq +6     # if (string_charat(s, i) == ',') goto <96:then>
+A7 00 23 # goto +35        # goto <97:else>
+# <96:then>
+15 03    # vload 3         # A
+15 04    # vload 4         # idx
+63       # aadds           # &A[idx]
+15 00    # vload 0         # s
+15 05    # vload 5         # last
+15 06    # vload 6         # i
+B7 00 06 # invokenative 6  # string_sub(s, last, i)
+4F       # amstore         # A[idx] = string_sub(s, last, i);
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # (i + 1)
+36 05    # vstore 5        # last = (i + 1);
+15 04    # vload 4         # idx
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # idx += 1;
+A7 00 03 # goto +3         # goto <98:endif>
+# <97:else>
+# <98:endif>
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # i += 1;
+A7 FF C0 # goto -64        # goto <93:loop>
+# <95:exit>
+15 03    # vload 3         # A
+15 04    # vload 4         # idx
+63       # aadds           # &A[idx]
+15 00    # vload 0         # s
+15 05    # vload 5         # last
+15 01    # vload 1         # len
+B7 00 06 # invokenative 6  # string_sub(s, last, len)
+4F       # amstore         # A[idx] = string_sub(s, last, len);
+BB 10    # new 16          # alloc(struct arr_wrapper)
+36 06    # vstore 6        # res = alloc(struct arr_wrapper);
+15 06    # vload 6         # res
+62 00    # aaddf 0         # &res->len
+15 02    # vload 2         # count
+10 01    # bipush 1        # 1
+60       # iadd            # (count + 1)
+4E       # imstore         # res->len = (count + 1);
+15 06    # vload 6         # res
+62 08    # aaddf 8         # &res->arr
+15 03    # vload 3         # A
+4F       # amstore         # res->arr = A;
+15 06    # vload 6         # res
+B0       # return          # 
+
+
+#<well_formatted_int_arr>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 44             # code length = 68 bytes
+15 00    # vload 0         # s
+B8 00 0E # invokestatic 14 # tokenize(s)
+36 01    # vstore 1        # wrapper = tokenize(s);
+10 00    # bipush 0        # 0
+36 03    # vstore 3        # i = 0;
+# <99:loop>
+15 03    # vload 3         # i
+15 01    # vload 1         # wrapper
+62 00    # aaddf 0         # &wrapper->len
+2E       # imload          # wrapper->len
+A1 00 06 # if_icmplt +6    # if (i < wrapper->len) goto <100:body>
+A7 00 2C # goto +44        # goto <101:exit>
+# <100:body>
+15 01    # vload 1         # wrapper
+62 08    # aaddf 8         # &wrapper->arr
+2F       # amload          # wrapper->arr
+15 03    # vload 3         # i
+63       # aadds           # &wrapper->arr[i]
+2F       # amload          # wrapper->arr[i]
+10 0A    # bipush 10       # 10
+B7 00 07 # invokenative 7  # parse_int(wrapper->arr[i], 10)
+36 02    # vstore 2        # p = parse_int(wrapper->arr[i], 10);
+15 02    # vload 2         # p
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (p == NULL) goto <102:then>
+A7 00 09 # goto +9         # goto <103:else>
+# <102:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <104:endif>
+# <103:else>
+# <104:endif>
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF CD # goto -51        # goto <99:loop>
+# <101:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<arr_int>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 48             # code length = 72 bytes
+15 00    # vload 0         # s
+B8 00 0E # invokestatic 14 # tokenize(s)
+36 01    # vstore 1        # wrapper = tokenize(s);
+15 01    # vload 1         # wrapper
+62 00    # aaddf 0         # &wrapper->len
+2E       # imload          # wrapper->len
+36 02    # vstore 2        # len = wrapper->len;
+15 02    # vload 2         # len
+BC 04    # newarray 4      # alloc_array(int, len)
+36 03    # vstore 3        # res = alloc_array(int, len);
+10 00    # bipush 0        # 0
+36 05    # vstore 5        # i = 0;
+# <105:loop>
+15 05    # vload 5         # i
+15 02    # vload 2         # len
+A1 00 06 # if_icmplt +6    # if (i < len) goto <106:body>
+A7 00 26 # goto +38        # goto <107:exit>
+# <106:body>
+15 01    # vload 1         # wrapper
+62 08    # aaddf 8         # &wrapper->arr
+2F       # amload          # wrapper->arr
+15 05    # vload 5         # i
+63       # aadds           # &wrapper->arr[i]
+2F       # amload          # wrapper->arr[i]
+10 0A    # bipush 10       # 10
+B7 00 07 # invokenative 7  # parse_int(wrapper->arr[i], 10)
+36 04    # vstore 4        # p = parse_int(wrapper->arr[i], 10);
+15 03    # vload 3         # res
+15 05    # vload 5         # i
+63       # aadds           # &res[i]
+15 04    # vload 4         # p
+2E       # imload          # *(p)
+4E       # imstore         # res[i] = *(p);
+15 05    # vload 5         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # i += 1;
+A7 FF D6 # goto -42        # goto <105:loop>
+# <107:exit>
+15 03    # vload 3         # res
+B0       # return          # 
+
+
+#<well_formatted_bool_arr>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 42             # code length = 66 bytes
+15 00    # vload 0         # s
+B8 00 0E # invokestatic 14 # tokenize(s)
+36 01    # vstore 1        # wrapper = tokenize(s);
+10 00    # bipush 0        # 0
+36 03    # vstore 3        # i = 0;
+# <108:loop>
+15 03    # vload 3         # i
+15 01    # vload 1         # wrapper
+62 00    # aaddf 0         # &wrapper->len
+2E       # imload          # wrapper->len
+A1 00 06 # if_icmplt +6    # if (i < wrapper->len) goto <109:body>
+A7 00 2A # goto +42        # goto <110:exit>
+# <109:body>
+15 01    # vload 1         # wrapper
+62 08    # aaddf 8         # &wrapper->arr
+2F       # amload          # wrapper->arr
+15 03    # vload 3         # i
+63       # aadds           # &wrapper->arr[i]
+2F       # amload          # wrapper->arr[i]
+B7 00 08 # invokenative 8  # parse_bool(wrapper->arr[i])
+36 02    # vstore 2        # p = parse_bool(wrapper->arr[i]);
+15 02    # vload 2         # p
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (p == NULL) goto <111:then>
+A7 00 09 # goto +9         # goto <112:else>
+# <111:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <113:endif>
+# <112:else>
+# <113:endif>
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF CF # goto -49        # goto <108:loop>
+# <110:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<arr_bool>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 46             # code length = 70 bytes
+15 00    # vload 0         # s
+B8 00 0E # invokestatic 14 # tokenize(s)
+36 01    # vstore 1        # wrapper = tokenize(s);
+15 01    # vload 1         # wrapper
+62 00    # aaddf 0         # &wrapper->len
+2E       # imload          # wrapper->len
+36 02    # vstore 2        # len = wrapper->len;
+15 02    # vload 2         # len
+BC 01    # newarray 1      # alloc_array(bool, len)
+36 03    # vstore 3        # res = alloc_array(bool, len);
+10 00    # bipush 0        # 0
+36 05    # vstore 5        # i = 0;
+# <114:loop>
+15 05    # vload 5         # i
+15 02    # vload 2         # len
+A1 00 06 # if_icmplt +6    # if (i < len) goto <115:body>
+A7 00 24 # goto +36        # goto <116:exit>
+# <115:body>
+15 01    # vload 1         # wrapper
+62 08    # aaddf 8         # &wrapper->arr
+2F       # amload          # wrapper->arr
+15 05    # vload 5         # i
+63       # aadds           # &wrapper->arr[i]
+2F       # amload          # wrapper->arr[i]
+B7 00 08 # invokenative 8  # parse_bool(wrapper->arr[i])
+36 04    # vstore 4        # p = parse_bool(wrapper->arr[i]);
+15 03    # vload 3         # res
+15 05    # vload 5         # i
+63       # aadds           # &res[i]
+15 04    # vload 4         # p
+34       # cmload          # *(p)
+55       # cmstore         # res[i] = *(p);
+15 05    # vload 5         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # i += 1;
+A7 FF D8 # goto -40        # goto <114:loop>
+# <116:exit>
+15 03    # vload 3         # res
+B0       # return          # 
+
+
+#<well_formatted_char_arr>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 3F             # code length = 63 bytes
+15 00    # vload 0         # s
+B8 00 0E # invokestatic 14 # tokenize(s)
+36 01    # vstore 1        # wrapper = tokenize(s);
+10 00    # bipush 0        # 0
+36 02    # vstore 2        # i = 0;
+# <117:loop>
+15 02    # vload 2         # i
+15 01    # vload 1         # wrapper
+62 00    # aaddf 0         # &wrapper->len
+2E       # imload          # wrapper->len
+A1 00 06 # if_icmplt +6    # if (i < wrapper->len) goto <118:body>
+A7 00 27 # goto +39        # goto <119:exit>
+# <118:body>
+15 01    # vload 1         # wrapper
+62 08    # aaddf 8         # &wrapper->arr
+2F       # amload          # wrapper->arr
+15 02    # vload 2         # i
+63       # aadds           # &wrapper->arr[i]
+2F       # amload          # wrapper->arr[i]
+B7 00 04 # invokenative 4  # string_length(wrapper->arr[i])
+10 01    # bipush 1        # 1
+A0 00 06 # if_cmpne +6     # if (string_length(wrapper->arr[i]) != 1) goto <120:then>
+A7 00 09 # goto +9         # goto <121:else>
+# <120:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <122:endif>
+# <121:else>
+# <122:endif>
+15 02    # vload 2         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 02    # vstore 2        # i += 1;
+A7 FF D2 # goto -46        # goto <117:loop>
+# <119:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<arr_char>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 43             # code length = 67 bytes
+15 00    # vload 0         # s
+B8 00 0E # invokestatic 14 # tokenize(s)
+36 01    # vstore 1        # wrapper = tokenize(s);
+15 01    # vload 1         # wrapper
+62 00    # aaddf 0         # &wrapper->len
+2E       # imload          # wrapper->len
+36 02    # vstore 2        # len = wrapper->len;
+15 02    # vload 2         # len
+BC 01    # newarray 1      # alloc_array(char, len)
+36 03    # vstore 3        # res = alloc_array(char, len);
+10 00    # bipush 0        # 0
+36 04    # vstore 4        # i = 0;
+# <123:loop>
+15 04    # vload 4         # i
+15 02    # vload 2         # len
+A1 00 06 # if_icmplt +6    # if (i < len) goto <124:body>
+A7 00 21 # goto +33        # goto <125:exit>
+# <124:body>
+15 03    # vload 3         # res
+15 04    # vload 4         # i
+63       # aadds           # &res[i]
+15 01    # vload 1         # wrapper
+62 08    # aaddf 8         # &wrapper->arr
+2F       # amload          # wrapper->arr
+15 04    # vload 4         # i
+63       # aadds           # &wrapper->arr[i]
+2F       # amload          # wrapper->arr[i]
+10 00    # bipush 0        # 0
+B7 00 05 # invokenative 5  # string_charat(wrapper->arr[i], 0)
+55       # cmstore         # res[i] = string_charat(wrapper->arr[i], 0);
+15 04    # vload 4         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # i += 1;
+A7 FF DB # goto -37        # goto <123:loop>
+# <125:exit>
+15 03    # vload 3         # res
+B0       # return          # 
+
+
+#<arr_string>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 09             # code length = 9 bytes
+15 00    # vload 0         # s
+B8 00 0E # invokestatic 14 # tokenize(s)
+62 08    # aaddf 8         # &tokenize(s)->arr
+2F       # amload          # tokenize(s)->arr
+B0       # return          # 
+
+
+#<int_size>
+00 00             # number of arguments = 0
+00 08             # number of local variables = 8
+00 03             # code length = 3 bytes
+10 04    # bipush 4        # 4
+B0       # return          # 
+
+
+#<int_max>
+00 00             # number of arguments = 0
+00 08             # number of local variables = 8
+00 04             # code length = 4 bytes
+13 00 00 # ildc 0          # c[0] = 2147483647
+B0       # return          # 
+
+
+#<int_min>
+00 00             # number of arguments = 0
+00 08             # number of local variables = 8
+00 04             # code length = 4 bytes
+13 00 01 # ildc 1          # c[1] = -2147483648
+B0       # return          # 
+
+
+#<abs>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 15             # code length = 21 bytes
+15 00    # vload 0         # x
+10 00    # bipush 0        # 0
+A1 00 06 # if_icmplt +6    # if (x < 0) goto <132:cond_true>
+A7 00 0B # goto +11        # goto <133:cond_false>
+# <132:cond_true>
+10 00    # bipush 0        # 
+15 00    # vload 0         # x
+64       # isub            # -(x)
+A7 00 05 # goto +5         # goto <134:cond_end>
+# <133:cond_false>
+15 00    # vload 0         # x
+# <134:cond_end>
+B0       # return          # 
+
+
+#<max>
+00 02             # number of arguments = 2
+00 08             # number of local variables = 8
+00 12             # code length = 18 bytes
+15 00    # vload 0         # x
+15 01    # vload 1         # y
+A3 00 06 # if_icmpgt +6    # if (x > y) goto <126:cond_true>
+A7 00 08 # goto +8         # goto <127:cond_false>
+# <126:cond_true>
+15 00    # vload 0         # x
+A7 00 05 # goto +5         # goto <128:cond_end>
+# <127:cond_false>
+15 01    # vload 1         # y
+# <128:cond_end>
+B0       # return          # 
+
+
+#<min>
+00 02             # number of arguments = 2
+00 08             # number of local variables = 8
+00 12             # code length = 18 bytes
+15 00    # vload 0         # x
+15 01    # vload 1         # y
+A3 00 06 # if_icmpgt +6    # if (x > y) goto <129:cond_true>
+A7 00 08 # goto +8         # goto <130:cond_false>
+# <129:cond_true>
+15 01    # vload 1         # y
+A7 00 05 # goto +5         # goto <131:cond_end>
+# <130:cond_false>
+15 00    # vload 0         # x
+# <131:cond_end>
+B0       # return          # 
+
+
+#<int2hex>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 52             # code length = 82 bytes
+10 02    # bipush 2        # 2
+B8 00 16 # invokestatic 22 # int_size()
+68       # imul            # (2 * int_size())
+36 01    # vstore 1        # digits = (2 * int_size());
+15 01    # vload 1         # digits
+10 01    # bipush 1        # 1
+60       # iadd            # (digits + 1)
+BC 01    # newarray 1      # alloc_array(char, (digits + 1))
+36 02    # vstore 2        # s = alloc_array(char, (digits + 1));
+15 02    # vload 2         # s
+15 01    # vload 1         # digits
+63       # aadds           # &s[digits]
+10 00    # bipush 0        # '\000'
+55       # cmstore         # s[digits] = '\0';
+10 00    # bipush 0        # 0
+36 03    # vstore 3        # i = 0;
+# <143:loop>
+15 03    # vload 3         # i
+15 01    # vload 1         # digits
+A1 00 06 # if_icmplt +6    # if (i < digits) goto <144:body>
+A7 00 28 # goto +40        # goto <145:exit>
+# <144:body>
+15 02    # vload 2         # s
+15 01    # vload 1         # digits
+15 03    # vload 3         # i
+64       # isub            # (digits - i)
+10 01    # bipush 1        # 1
+64       # isub            # ((digits - i) - 1)
+63       # aadds           # &s[((digits - i) - 1)]
+15 00    # vload 0         # x
+10 0F    # bipush 15       # 15
+7E       # iand            # (x & 15)
+B8 00 1D # invokestatic 29 # hexdig2char((x & 15))
+55       # cmstore         # s[((digits - i) - 1)] = hexdig2char((x & 15));
+15 00    # vload 0         # x
+10 04    # bipush 4        # 4
+7A       # ishr            # (x >> 4)
+36 00    # vstore 0        # x = (x >> 4);
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF D4 # goto -44        # goto <143:loop>
+# <145:exit>
+15 02    # vload 2         # s
+B7 00 0B # invokenative 11 # string_from_chararray(s)
+B0       # return          # 
+
+
+#<hexdig2char>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 4C             # code length = 76 bytes
+10 00    # bipush 0        # 0
+15 00    # vload 0         # d
+A4 00 06 # if_icmple +6    # if (0 <= d) goto <138:and>
+A7 00 1C # goto +28        # goto <136:else>
+# <138:and>
+15 00    # vload 0         # d
+10 0A    # bipush 10       # 10
+A1 00 06 # if_icmplt +6    # if (d < 10) goto <135:then>
+A7 00 12 # goto +18        # goto <136:else>
+# <135:then>
+10 30    # bipush 48       # '0'
+B7 00 0A # invokenative 10 # char_ord('0')
+15 00    # vload 0         # d
+60       # iadd            # (char_ord('0') + d)
+B7 00 09 # invokenative 9  # char_chr((char_ord('0') + d))
+B0       # return          # 
+A7 00 2C # goto +44        # goto <137:endif>
+# <136:else>
+10 0A    # bipush 10       # 10
+15 00    # vload 0         # d
+A4 00 06 # if_icmple +6    # if (10 <= d) goto <142:and>
+A7 00 1F # goto +31        # goto <140:else>
+# <142:and>
+15 00    # vload 0         # d
+10 10    # bipush 16       # 16
+A1 00 06 # if_icmplt +6    # if (d < 16) goto <139:then>
+A7 00 15 # goto +21        # goto <140:else>
+# <139:then>
+10 41    # bipush 65       # 'A'
+B7 00 0A # invokenative 10 # char_ord('A')
+15 00    # vload 0         # d
+10 0A    # bipush 10       # 10
+64       # isub            # (d - 10)
+60       # iadd            # (char_ord('A') + (d - 10))
+B7 00 09 # invokenative 9  # char_chr((char_ord('A') + (d - 10)))
+B0       # return          # 
+A7 00 06 # goto +6         # goto <141:endif>
+# <140:else>
+10 3F    # bipush 63       # '\?'
+B0       # return          # 
+# <141:endif>
+# <137:endif>
+
+
+#<read_words>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 84             # code length = 132 bytes
+15 00    # vload 0         # filename
+B8 00 26 # invokestatic 38 # get_reader(filename)
+36 01    # vstore 1        # r = get_reader(filename);
+15 01    # vload 1         # r
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (r == NULL) goto <237:then>
+A7 00 15 # goto +21        # goto <238:else>
+# <237:then>
+14 00 06 # aldc 6          # s[6] = "Cannot open file \'"
+15 00    # vload 0         # filename
+B7 00 10 # invokenative 16 # string_join("Cannot open file \'", filename)
+14 00 19 # aldc 25         # s[25] = "\'"
+B7 00 10 # invokenative 16 # string_join(string_join("Cannot open file \'", filename), "\'")
+BF       # athrow          # error string_join(string_join("Cannot open file \'", filename), "\'")
+A7 00 03 # goto +3         # goto <239:endif>
+# <238:else>
+# <239:endif>
+01       # aconst_null     # NULL
+36 02    # vstore 2        # l = NULL;
+15 01    # vload 1         # r
+B8 00 27 # invokestatic 39 # read_word(r)
+36 03    # vstore 3        # w = read_word(r);
+BB 10    # new 16          # alloc(string_bundle)
+36 04    # vstore 4        # res = alloc(string_bundle);
+10 00    # bipush 0        # 0
+36 05    # vstore 5        # count = 0;
+# <240:loop>
+15 03    # vload 3         # w
+14 00 1B # aldc 27         # s[27] = ""
+B7 00 00 # invokenative 0  # string_equal(w, "")
+10 01    # bipush 1        # true
+9F 00 32 # if_cmpeq +50    # if (string_equal(w, "") == true) goto <242:exit>
+A7 00 03 # goto +3         # goto <241:body>
+# <241:body>
+15 03    # vload 3         # w
+15 02    # vload 2         # l
+B8 00 2A # invokestatic 42 # list_cons(w, l)
+36 02    # vstore 2        # l = list_cons(w, l);
+15 01    # vload 1         # r
+B8 00 27 # invokestatic 39 # read_word(r)
+36 03    # vstore 3        # w = read_word(r);
+15 05    # vload 5         # count
+B8 00 17 # invokestatic 23 # int_max()
+9F 00 06 # if_cmpeq +6     # if (count == int_max()) goto <243:then>
+A7 00 0A # goto +10        # goto <244:else>
+# <243:then>
+14 00 1C # aldc 28         # s[28] = "Too many words in input file"
+BF       # athrow          # error "Too many words in input file"
+A7 00 03 # goto +3         # goto <245:endif>
+# <244:else>
+# <245:endif>
+15 05    # vload 5         # count
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # count += 1;
+A7 FF C7 # goto -57        # goto <240:loop>
+# <242:exit>
+15 04    # vload 4         # res
+62 00    # aaddf 0         # &res->array
+15 02    # vload 2         # l
+B8 00 2B # invokestatic 43 # rev_list_to_array(l)
+4F       # amstore         # res->array = rev_list_to_array(l);
+15 04    # vload 4         # res
+62 08    # aaddf 8         # &res->length
+15 05    # vload 5         # count
+4E       # imstore         # res->length = count;
+15 04    # vload 4         # res
+B0       # return          # 
+
+
+#<string_bundle_length>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 14             # code length = 20 bytes
+15 00    # vload 0         # wl
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (wl == NULL) goto <234:cond_true>
+A7 00 08 # goto +8         # goto <235:cond_false>
+# <234:cond_true>
+10 00    # bipush 0        # 0
+A7 00 08 # goto +8         # goto <236:cond_end>
+# <235:cond_false>
+15 00    # vload 0         # wl
+62 08    # aaddf 8         # &wl->length
+2E       # imload          # wl->length
+# <236:cond_end>
+B0       # return          # 
+
+
+#<string_bundle_array>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 16             # code length = 22 bytes
+15 00    # vload 0         # wl
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (wl == NULL) goto <231:cond_true>
+A7 00 0A # goto +10        # goto <232:cond_false>
+# <231:cond_true>
+10 00    # bipush 0        # 0
+BC 08    # newarray 8      # alloc_array(string, 0)
+A7 00 08 # goto +8         # goto <233:cond_end>
+# <232:cond_false>
+15 00    # vload 0         # wl
+62 00    # aaddf 0         # &wl->array
+2F       # amload          # wl->array
+# <233:cond_end>
+B0       # return          # 
+
+
+#<is_space>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+01 75             # code length = 373 bytes
+15 00    # vload 0         # c
+10 20    # bipush 32       # ' '
+9F 01 5A # if_cmpeq +346   # if (c == ' ') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <182:or>
+# <182:or>
+15 00    # vload 0         # c
+10 09    # bipush 9        # '\t'
+9F 01 50 # if_cmpeq +336   # if (c == '\t') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <181:or>
+# <181:or>
+15 00    # vload 0         # c
+10 0A    # bipush 10       # '\n'
+9F 01 46 # if_cmpeq +326   # if (c == '\n') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <180:or>
+# <180:or>
+15 00    # vload 0         # c
+10 0D    # bipush 13       # '\r'
+9F 01 3C # if_cmpeq +316   # if (c == '\r') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <179:or>
+# <179:or>
+15 00    # vload 0         # c
+10 2C    # bipush 44       # ','
+9F 01 32 # if_cmpeq +306   # if (c == ',') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <178:or>
+# <178:or>
+15 00    # vload 0         # c
+10 2E    # bipush 46       # '.'
+9F 01 28 # if_cmpeq +296   # if (c == '.') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <177:or>
+# <177:or>
+15 00    # vload 0         # c
+10 3B    # bipush 59       # ';'
+9F 01 1E # if_cmpeq +286   # if (c == ';') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <176:or>
+# <176:or>
+15 00    # vload 0         # c
+10 3A    # bipush 58       # ':'
+9F 01 14 # if_cmpeq +276   # if (c == ':') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <175:or>
+# <175:or>
+15 00    # vload 0         # c
+10 22    # bipush 34       # '\"'
+9F 01 0A # if_cmpeq +266   # if (c == '\"') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <174:or>
+# <174:or>
+15 00    # vload 0         # c
+10 2D    # bipush 45       # '-'
+9F 01 00 # if_cmpeq +256   # if (c == '-') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <173:or>
+# <173:or>
+15 00    # vload 0         # c
+10 21    # bipush 33       # '!'
+9F 00 F6 # if_cmpeq +246   # if (c == '!') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <172:or>
+# <172:or>
+15 00    # vload 0         # c
+10 3F    # bipush 63       # '\?'
+9F 00 EC # if_cmpeq +236   # if (c == '?') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <171:or>
+# <171:or>
+15 00    # vload 0         # c
+10 7C    # bipush 124      # '|'
+9F 00 E2 # if_cmpeq +226   # if (c == '|') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <170:or>
+# <170:or>
+15 00    # vload 0         # c
+10 7E    # bipush 126      # '~'
+9F 00 D8 # if_cmpeq +216   # if (c == '~') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <169:or>
+# <169:or>
+15 00    # vload 0         # c
+10 28    # bipush 40       # '('
+9F 00 CE # if_cmpeq +206   # if (c == '(') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <168:or>
+# <168:or>
+15 00    # vload 0         # c
+10 29    # bipush 41       # ')'
+9F 00 C4 # if_cmpeq +196   # if (c == ')') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <167:or>
+# <167:or>
+15 00    # vload 0         # c
+10 5B    # bipush 91       # '['
+9F 00 BA # if_cmpeq +186   # if (c == '[') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <166:or>
+# <166:or>
+15 00    # vload 0         # c
+10 5D    # bipush 93       # ']'
+9F 00 B0 # if_cmpeq +176   # if (c == ']') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <165:or>
+# <165:or>
+15 00    # vload 0         # c
+10 7B    # bipush 123      # '{'
+9F 00 A6 # if_cmpeq +166   # if (c == '{') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <164:or>
+# <164:or>
+15 00    # vload 0         # c
+10 7D    # bipush 125      # '}'
+9F 00 9C # if_cmpeq +156   # if (c == '}') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <163:or>
+# <163:or>
+15 00    # vload 0         # c
+10 23    # bipush 35       # '#'
+9F 00 92 # if_cmpeq +146   # if (c == '#') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <162:or>
+# <162:or>
+15 00    # vload 0         # c
+10 24    # bipush 36       # '$'
+9F 00 88 # if_cmpeq +136   # if (c == '$') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <161:or>
+# <161:or>
+15 00    # vload 0         # c
+10 25    # bipush 37       # '%'
+9F 00 7E # if_cmpeq +126   # if (c == '%') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <160:or>
+# <160:or>
+15 00    # vload 0         # c
+10 27    # bipush 39       # '\''
+9F 00 74 # if_cmpeq +116   # if (c == '\'') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <159:or>
+# <159:or>
+15 00    # vload 0         # c
+10 2A    # bipush 42       # '*'
+9F 00 6A # if_cmpeq +106   # if (c == '*') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <158:or>
+# <158:or>
+15 00    # vload 0         # c
+10 2B    # bipush 43       # '+'
+9F 00 60 # if_cmpeq +96    # if (c == '+') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <157:or>
+# <157:or>
+15 00    # vload 0         # c
+10 2F    # bipush 47       # '/'
+9F 00 56 # if_cmpeq +86    # if (c == '/') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <156:or>
+# <156:or>
+15 00    # vload 0         # c
+10 3C    # bipush 60       # '<'
+9F 00 4C # if_cmpeq +76    # if (c == '<') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <155:or>
+# <155:or>
+15 00    # vload 0         # c
+10 3D    # bipush 61       # '='
+9F 00 42 # if_cmpeq +66    # if (c == '=') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <154:or>
+# <154:or>
+15 00    # vload 0         # c
+10 3E    # bipush 62       # '>'
+9F 00 38 # if_cmpeq +56    # if (c == '>') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <153:or>
+# <153:or>
+15 00    # vload 0         # c
+10 40    # bipush 64       # '@'
+9F 00 2E # if_cmpeq +46    # if (c == '@') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <152:or>
+# <152:or>
+15 00    # vload 0         # c
+10 5C    # bipush 92       # '\\'
+9F 00 24 # if_cmpeq +36    # if (c == '\\') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <151:or>
+# <151:or>
+15 00    # vload 0         # c
+10 26    # bipush 38       # '&'
+9F 00 1A # if_cmpeq +26    # if (c == '&') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <150:or>
+# <150:or>
+15 00    # vload 0         # c
+10 5E    # bipush 94       # '^'
+9F 00 10 # if_cmpeq +16    # if (c == '^') goto <146:cond_true>
+A7 00 03 # goto +3         # goto <149:or>
+# <149:or>
+15 00    # vload 0         # c
+10 5F    # bipush 95       # '_'
+9F 00 06 # if_cmpeq +6     # if (c == '_') goto <146:cond_true>
+A7 00 08 # goto +8         # goto <147:cond_false>
+# <146:cond_true>
+10 01    # bipush 1        # true
+A7 00 14 # goto +20        # goto <148:cond_end>
+# <147:cond_false>
+15 00    # vload 0         # c
+10 60    # bipush 96       # '`'
+9F 00 06 # if_cmpeq +6     # if (c == '`') goto <183:cond_true>
+A7 00 08 # goto +8         # goto <184:cond_false>
+# <183:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <185:cond_end>
+# <184:cond_false>
+10 00    # bipush 0        # false
+# <185:cond_end>
+# <148:cond_end>
+B0       # return          # 
+
+
+#<word>
+00 03             # number of arguments = 3
+00 08             # number of local variables = 8
+00 46             # code length = 70 bytes
+15 01    # vload 1         # i
+10 01    # bipush 1        # 1
+60       # iadd            # (i + 1)
+36 03    # vstore 3        # j = (i + 1);
+15 00    # vload 0         # sentence
+B7 00 04 # invokenative 4  # string_length(sentence)
+36 04    # vstore 4        # len = string_length(sentence);
+# <186:loop>
+15 03    # vload 3         # j
+15 04    # vload 4         # len
+A1 00 06 # if_icmplt +6    # if (j < len) goto <189:and>
+A7 00 1F # goto +31        # goto <188:exit>
+# <189:and>
+15 00    # vload 0         # sentence
+15 03    # vload 3         # j
+B7 00 05 # invokenative 5  # string_charat(sentence, j)
+B8 00 21 # invokestatic 33 # is_space(string_charat(sentence, j))
+10 01    # bipush 1        # true
+9F 00 10 # if_cmpeq +16    # if (is_space(string_charat(sentence, j)) == true) goto <188:exit>
+A7 00 03 # goto +3         # goto <187:body>
+# <187:body>
+15 03    # vload 3         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # j += 1;
+A7 FF DD # goto -35        # goto <186:loop>
+# <188:exit>
+15 02    # vload 2         # newi
+15 03    # vload 3         # j
+4E       # imstore         # *(newi) = j;
+15 00    # vload 0         # sentence
+15 01    # vload 1         # i
+15 03    # vload 3         # j
+B7 00 06 # invokenative 6  # string_sub(sentence, i, j)
+B7 00 0C # invokenative 12 # string_tolower(string_sub(sentence, i, j))
+B0       # return          # 
+
+
+#<skip_space>
+00 02             # number of arguments = 2
+00 08             # number of local variables = 8
+00 37             # code length = 55 bytes
+15 01    # vload 1         # i
+36 02    # vstore 2        # j = i;
+15 00    # vload 0         # sentence
+B7 00 04 # invokenative 4  # string_length(sentence)
+36 03    # vstore 3        # len = string_length(sentence);
+# <190:loop>
+15 02    # vload 2         # j
+15 00    # vload 0         # sentence
+B7 00 04 # invokenative 4  # string_length(sentence)
+A1 00 06 # if_icmplt +6    # if (j < string_length(sentence)) goto <193:and>
+A7 00 1F # goto +31        # goto <192:exit>
+# <193:and>
+15 00    # vload 0         # sentence
+15 02    # vload 2         # j
+B7 00 05 # invokenative 5  # string_charat(sentence, j)
+B8 00 21 # invokestatic 33 # is_space(string_charat(sentence, j))
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_space(string_charat(sentence, j)) == true) goto <191:body>
+A7 00 0D # goto +13        # goto <192:exit>
+# <191:body>
+15 02    # vload 2         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 02    # vstore 2        # j += 1;
+A7 FF DA # goto -38        # goto <190:loop>
+# <192:exit>
+15 02    # vload 2         # j
+B0       # return          # 
+
+
+#<reader_valid>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 3B             # code length = 59 bytes
+15 00    # vload 0         # r
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (r == NULL) goto <194:cond_true>
+A7 00 08 # goto +8         # goto <195:cond_false>
+# <194:cond_true>
+10 01    # bipush 1        # true
+A7 00 2F # goto +47        # goto <196:cond_end>
+# <195:cond_false>
+10 00    # bipush 0        # 0
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+2E       # imload          # r->current_idx
+A4 00 06 # if_icmple +6    # if (0 <= r->current_idx) goto <197:cond_true>
+A7 00 20 # goto +32        # goto <198:cond_false>
+# <197:cond_true>
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+2E       # imload          # r->current_idx
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+B7 00 04 # invokenative 4  # string_length(r->current)
+A4 00 06 # if_icmple +6    # if (r->current_idx <= string_length(r->current)) goto <200:cond_true>
+A7 00 08 # goto +8         # goto <201:cond_false>
+# <200:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <202:cond_end>
+# <201:cond_false>
+10 00    # bipush 0        # false
+# <202:cond_end>
+A7 00 05 # goto +5         # goto <199:cond_end>
+# <198:cond_false>
+10 00    # bipush 0        # false
+# <199:cond_end>
+# <196:cond_end>
+B0       # return          # 
+
+
+#<at_space>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 29             # code length = 41 bytes
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+2E       # imload          # r->current_idx
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+B7 00 04 # invokenative 4  # string_length(r->current)
+A1 00 06 # if_icmplt +6    # if (r->current_idx < string_length(r->current)) goto <203:cond_true>
+A7 00 16 # goto +22        # goto <204:cond_false>
+# <203:cond_true>
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+2E       # imload          # r->current_idx
+B7 00 05 # invokenative 5  # string_charat(r->current, r->current_idx)
+B8 00 21 # invokestatic 33 # is_space(string_charat(r->current, r->current_idx))
+A7 00 05 # goto +5         # goto <205:cond_end>
+# <204:cond_false>
+10 00    # bipush 0        # false
+# <205:cond_end>
+B0       # return          # 
+
+
+#<get_reader>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 4E             # code length = 78 bytes
+15 00    # vload 0         # fname
+B7 00 0D # invokenative 13 # file_read(fname)
+36 01    # vstore 1        # file = file_read(fname);
+15 01    # vload 1         # file
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (file == NULL) goto <206:then>
+A7 00 08 # goto +8         # goto <207:else>
+# <206:then>
+01       # aconst_null     # NULL
+B0       # return          # 
+A7 00 03 # goto +3         # goto <208:endif>
+# <207:else>
+# <208:endif>
+15 01    # vload 1         # file
+B7 00 0E # invokenative 14 # file_eof(file)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (file_eof(file) == true) goto <209:then>
+A7 00 08 # goto +8         # goto <210:else>
+# <209:then>
+01       # aconst_null     # NULL
+B0       # return          # 
+A7 00 2A # goto +42        # goto <211:endif>
+# <210:else>
+BB 18    # new 24          # alloc(reader_t)
+36 02    # vstore 2        # r = alloc(reader_t);
+15 02    # vload 2         # r
+62 00    # aaddf 0         # &r->file
+15 01    # vload 1         # file
+4F       # amstore         # r->file = file;
+15 02    # vload 2         # r
+62 08    # aaddf 8         # &r->current
+15 01    # vload 1         # file
+B7 00 0F # invokenative 15 # file_readline(file)
+4F       # amstore         # r->current = file_readline(file);
+15 02    # vload 2         # r
+62 10    # aaddf 16        # &r->current_idx
+15 02    # vload 2         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+10 00    # bipush 0        # 0
+B8 00 23 # invokestatic 35 # skip_space(r->current, 0)
+4E       # imstore         # r->current_idx = skip_space(r->current, 0);
+15 02    # vload 2         # r
+B0       # return          # 
+# <211:endif>
+
+
+#<read_word>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 94             # code length = 148 bytes
+15 00    # vload 0         # r
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (r == NULL) goto <212:then>
+A7 00 0A # goto +10        # goto <213:else>
+# <212:then>
+14 00 04 # aldc 4          # s[4] = ""
+B0       # return          # 
+A7 00 03 # goto +3         # goto <214:endif>
+# <213:else>
+# <214:endif>
+# <215:loop>
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+2E       # imload          # r->current_idx
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+B7 00 04 # invokenative 4  # string_length(r->current)
+9F 00 06 # if_cmpeq +6     # if (r->current_idx == string_length(r->current)) goto <218:and>
+A7 00 32 # goto +50        # goto <217:exit>
+# <218:and>
+15 00    # vload 0         # r
+62 00    # aaddf 0         # &r->file
+2F       # amload          # r->file
+B7 00 0E # invokenative 14 # file_eof(r->file)
+10 01    # bipush 1        # true
+9F 00 25 # if_cmpeq +37    # if (file_eof(r->file) == true) goto <217:exit>
+A7 00 03 # goto +3         # goto <216:body>
+# <216:body>
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+15 00    # vload 0         # r
+62 00    # aaddf 0         # &r->file
+2F       # amload          # r->file
+B7 00 0F # invokenative 15 # file_readline(r->file)
+4F       # amstore         # r->current = file_readline(r->file);
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+10 00    # bipush 0        # 0
+B8 00 23 # invokestatic 35 # skip_space(r->current, 0)
+4E       # imstore         # r->current_idx = skip_space(r->current, 0);
+A7 FF C1 # goto -63        # goto <215:loop>
+# <217:exit>
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+2E       # imload          # r->current_idx
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+B7 00 04 # invokenative 4  # string_length(r->current)
+A1 00 06 # if_icmplt +6    # if (r->current_idx < string_length(r->current)) goto <219:then>
+A7 00 2E # goto +46        # goto <220:else>
+# <219:then>
+BB 04    # new 4           # alloc(int)
+36 01    # vstore 1        # newi = alloc(int);
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+2E       # imload          # r->current_idx
+15 01    # vload 1         # newi
+B8 00 22 # invokestatic 34 # word(r->current, r->current_idx, newi)
+36 02    # vstore 2        # w = word(r->current, r->current_idx, newi);
+15 00    # vload 0         # r
+62 10    # aaddf 16        # &r->current_idx
+15 00    # vload 0         # r
+62 08    # aaddf 8         # &r->current
+2F       # amload          # r->current
+15 01    # vload 1         # newi
+2E       # imload          # *(newi)
+B8 00 23 # invokestatic 35 # skip_space(r->current, *(newi))
+4E       # imstore         # r->current_idx = skip_space(r->current, *(newi));
+15 02    # vload 2         # w
+B0       # return          # 
+A7 00 07 # goto +7         # goto <221:endif>
+# <220:else>
+14 00 05 # aldc 5          # s[5] = ""
+B0       # return          # 
+# <221:endif>
+
+
+#<list_length>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 21             # code length = 33 bytes
+10 00    # bipush 0        # 0
+36 01    # vstore 1        # count = 0;
+# <222:loop>
+15 00    # vload 0         # l
+01       # aconst_null     # NULL
+A0 00 06 # if_cmpne +6     # if (l != NULL) goto <223:body>
+A7 00 14 # goto +20        # goto <224:exit>
+# <223:body>
+15 01    # vload 1         # count
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 01    # vstore 1        # count += 1;
+15 00    # vload 0         # l
+62 08    # aaddf 8         # &l->tail
+2F       # amload          # l->tail
+36 00    # vstore 0        # l = l->tail;
+A7 FF E9 # goto -23        # goto <222:loop>
+# <224:exit>
+15 01    # vload 1         # count
+B0       # return          # 
+
+
+#<list_empty>
+00 00             # number of arguments = 0
+00 08             # number of local variables = 8
+00 02             # code length = 2 bytes
+01       # aconst_null     # NULL
+B0       # return          # 
+
+
+#<list_cons>
+00 02             # number of arguments = 2
+00 08             # number of local variables = 8
+00 15             # code length = 21 bytes
+BB 10    # new 16          # alloc(struct list_cell)
+36 02    # vstore 2        # res = alloc(struct list_cell);
+15 02    # vload 2         # res
+62 00    # aaddf 0         # &res->head
+15 00    # vload 0         # s
+4F       # amstore         # res->head = s;
+15 02    # vload 2         # res
+62 08    # aaddf 8         # &res->tail
+15 01    # vload 1         # l
+4F       # amstore         # res->tail = l;
+15 02    # vload 2         # res
+B0       # return          # 
+
+
+#<rev_list_to_array>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 41             # code length = 65 bytes
+15 00    # vload 0         # l
+B8 00 28 # invokestatic 40 # list_length(l)
+36 01    # vstore 1        # len = list_length(l);
+15 01    # vload 1         # len
+BC 08    # newarray 8      # alloc_array(string, len)
+36 02    # vstore 2        # res = alloc_array(string, len);
+15 00    # vload 0         # l
+36 04    # vstore 4        # ll = l;
+15 01    # vload 1         # len
+10 01    # bipush 1        # 1
+64       # isub            # (len - 1)
+36 03    # vstore 3        # i = (len - 1);
+# <225:loop>
+15 03    # vload 3         # i
+10 00    # bipush 0        # 0
+A2 00 06 # if_icmpge +6    # if (i >= 0) goto <226:body>
+A7 00 1F # goto +31        # goto <227:exit>
+# <226:body>
+15 02    # vload 2         # res
+15 03    # vload 3         # i
+63       # aadds           # &res[i]
+15 04    # vload 4         # ll
+62 00    # aaddf 0         # &ll->head
+2F       # amload          # ll->head
+4F       # amstore         # res[i] = ll->head;
+15 04    # vload 4         # ll
+62 08    # aaddf 8         # &ll->tail
+2F       # amload          # ll->tail
+36 04    # vstore 4        # ll = ll->tail;
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+64       # isub            # 
+36 03    # vstore 3        # i -= 1;
+A7 FF DD # goto -35        # goto <225:loop>
+# <227:exit>
+15 02    # vload 2         # res
+B0       # return          # 
+
+
+#<is_array_expected_length>
+00 02             # number of arguments = 2
+00 08             # number of local variables = 8
+00 03             # code length = 3 bytes
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<is_string_bundle>
+00 01             # number of arguments = 1
+00 08             # number of local variables = 8
+00 1D             # code length = 29 bytes
+15 00    # vload 0         # wl
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (wl == NULL) goto <228:then>
+A7 00 09 # goto +9         # goto <229:else>
+# <228:then>
+10 01    # bipush 1        # true
+B0       # return          # 
+A7 00 03 # goto +3         # goto <230:endif>
+# <229:else>
+# <230:endif>
+15 00    # vload 0         # wl
+62 00    # aaddf 0         # &wl->array
+2F       # amload          # wl->array
+15 00    # vload 0         # wl
+62 08    # aaddf 8         # &wl->length
+2E       # imload          # wl->length
+B8 00 2C # invokestatic 44 # is_array_expected_length(wl->array, wl->length)
+B0       # return          # 
+
+
+#<check_word>
+00 03             # number of arguments = 3
+00 08             # number of local variables = 8
+00 5F             # code length = 95 bytes
+10 00    # bipush 0        # 0
+36 03    # vstore 3        # lo = 0;
+15 01    # vload 1         # d
+36 04    # vstore 4        # hi = d;
+# <246:loop>
+15 03    # vload 3         # lo
+15 04    # vload 4         # hi
+A1 00 06 # if_icmplt +6    # if (lo < hi) goto <247:body>
+A7 00 4D # goto +77        # goto <248:exit>
+# <247:body>
+15 03    # vload 3         # lo
+15 04    # vload 4         # hi
+15 03    # vload 3         # lo
+64       # isub            # (hi - lo)
+10 02    # bipush 2        # 2
+6C       # idiv            # ((hi - lo) / 2)
+60       # iadd            # (lo + ((hi - lo) / 2))
+36 05    # vstore 5        # mid = (lo + ((hi - lo) / 2));
+15 00    # vload 0         # dict
+15 05    # vload 5         # mid
+63       # aadds           # &dict[mid]
+2F       # amload          # dict[mid]
+15 02    # vload 2         # w
+B7 00 01 # invokenative 1  # string_compare(dict[mid], w)
+10 00    # bipush 0        # 0
+9F 00 06 # if_cmpeq +6     # if (string_compare(dict[mid], w) == 0) goto <249:then>
+A7 00 09 # goto +9         # goto <250:else>
+# <249:then>
+10 01    # bipush 1        # true
+B0       # return          # 
+A7 00 03 # goto +3         # goto <251:endif>
+# <250:else>
+# <251:endif>
+15 00    # vload 0         # dict
+15 05    # vload 5         # mid
+63       # aadds           # &dict[mid]
+2F       # amload          # dict[mid]
+15 02    # vload 2         # w
+B7 00 01 # invokenative 1  # string_compare(dict[mid], w)
+10 FF    # bipush -1       # -1
+9F 00 06 # if_cmpeq +6     # if (string_compare(dict[mid], w) == -(1)) goto <252:then>
+A7 00 0D # goto +13        # goto <253:else>
+# <252:then>
+15 05    # vload 5         # mid
+10 01    # bipush 1        # 1
+60       # iadd            # (mid + 1)
+36 03    # vstore 3        # lo = (mid + 1);
+A7 00 07 # goto +7         # goto <254:endif>
+# <253:else>
+15 05    # vload 5         # mid
+36 04    # vstore 4        # hi = mid;
+# <254:endif>
+A7 FF AF # goto -81        # goto <246:loop>
+# <248:exit>
+10 00    # bipush 0        # false
+B0       # return          # 
+
+
+#<check_text_naive>
+00 05             # number of arguments = 5
+00 08             # number of local variables = 8
+00 61             # code length = 97 bytes
+10 00    # bipush 0        # 0
+36 05    # vstore 5        # result = 0;
+10 00    # bipush 0        # 0
+36 06    # vstore 6        # i = 0;
+# <255:loop>
+15 06    # vload 6         # i
+15 03    # vload 3         # t
+A1 00 06 # if_icmplt +6    # if (i < t) goto <256:body>
+A7 00 4F # goto +79        # goto <257:exit>
+# <256:body>
+15 00    # vload 0         # dict
+15 01    # vload 1         # d
+15 02    # vload 2         # text
+15 06    # vload 6         # i
+63       # aadds           # &text[i]
+2F       # amload          # text[i]
+B8 00 2E # invokestatic 46 # check_word(dict, d, text[i])
+10 01    # bipush 1        # true
+9F 00 33 # if_cmpeq +51    # if (check_word(dict, d, text[i]) == true) goto <259:else>
+A7 00 03 # goto +3         # goto <261:and>
+# <261:and>
+15 02    # vload 2         # text
+15 06    # vload 6         # i
+63       # aadds           # &text[i]
+2F       # amload          # text[i]
+15 04    # vload 4         # miss
+10 00    # bipush 0        # 0
+15 03    # vload 3         # t
+B8 00 01 # invokestatic 1  # is_in(text[i], miss, 0, t)
+10 01    # bipush 1        # true
+9F 00 1C # if_cmpeq +28    # if (is_in(text[i], miss, 0, t) == true) goto <259:else>
+A7 00 03 # goto +3         # goto <258:then>
+# <258:then>
+15 04    # vload 4         # miss
+15 05    # vload 5         # result
+63       # aadds           # &miss[result]
+15 02    # vload 2         # text
+15 06    # vload 6         # i
+63       # aadds           # &text[i]
+2F       # amload          # text[i]
+4F       # amstore         # miss[result] = text[i];
+15 05    # vload 5         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # result += 1;
+A7 00 03 # goto +3         # goto <260:endif>
+# <259:else>
+# <260:endif>
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # i += 1;
+A7 FF AD # goto -83        # goto <255:loop>
+# <257:exit>
+15 05    # vload 5         # result
+B0       # return          # 
+
+
+#<check_sorted_text>
+00 05             # number of arguments = 5
+00 09             # number of local variables = 9
+00 B4             # code length = 180 bytes
+10 00    # bipush 0        # 0
+36 05    # vstore 5        # i = 0;
+10 00    # bipush 0        # 0
+36 06    # vstore 6        # j = 0;
+10 00    # bipush 0        # 0
+36 07    # vstore 7        # result = 0;
+# <262:loop>
+15 05    # vload 5         # i
+15 01    # vload 1         # d
+A1 00 06 # if_icmplt +6    # if (i < d) goto <265:and>
+A7 00 77 # goto +119       # goto <264:exit>
+# <265:and>
+15 06    # vload 6         # j
+15 03    # vload 3         # t
+A1 00 06 # if_icmplt +6    # if (j < t) goto <263:body>
+A7 00 6D # goto +109       # goto <264:exit>
+# <263:body>
+15 00    # vload 0         # dict
+15 05    # vload 5         # i
+63       # aadds           # &dict[i]
+2F       # amload          # dict[i]
+15 02    # vload 2         # text
+15 06    # vload 6         # j
+63       # aadds           # &text[j]
+2F       # amload          # text[j]
+B7 00 01 # invokenative 1  # string_compare(dict[i], text[j])
+36 08    # vstore 8        # ssd = string_compare(dict[i], text[j]);
+15 08    # vload 8         # ssd
+10 00    # bipush 0        # 0
+9F 00 06 # if_cmpeq +6     # if (ssd == 0) goto <266:then>
+A7 00 14 # goto +20        # goto <267:else>
+# <266:then>
+15 05    # vload 5         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # i += 1;
+15 06    # vload 6         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # j += 1;
+A7 00 03 # goto +3         # goto <268:endif>
+# <267:else>
+# <268:endif>
+15 08    # vload 8         # ssd
+10 FF    # bipush -1       # -1
+9F 00 06 # if_cmpeq +6     # if (ssd == -(1)) goto <269:then>
+A7 00 0D # goto +13        # goto <270:else>
+# <269:then>
+15 05    # vload 5         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # i += 1;
+A7 00 03 # goto +3         # goto <271:endif>
+# <270:else>
+# <271:endif>
+15 08    # vload 8         # ssd
+10 01    # bipush 1        # 1
+9F 00 06 # if_cmpeq +6     # if (ssd == 1) goto <272:then>
+A7 00 20 # goto +32        # goto <273:else>
+# <272:then>
+15 04    # vload 4         # miss
+15 07    # vload 7         # result
+63       # aadds           # &miss[result]
+15 02    # vload 2         # text
+15 06    # vload 6         # j
+63       # aadds           # &text[j]
+2F       # amload          # text[j]
+4F       # amstore         # miss[result] = text[j];
+15 06    # vload 6         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # j += 1;
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+A7 00 03 # goto +3         # goto <274:endif>
+# <273:else>
+# <274:endif>
+A7 FF 85 # goto -123       # goto <262:loop>
+# <264:exit>
+# <275:loop>
+15 06    # vload 6         # j
+15 03    # vload 3         # t
+A1 00 06 # if_icmplt +6    # if (j < t) goto <276:body>
+A7 00 20 # goto +32        # goto <277:exit>
+# <276:body>
+15 04    # vload 4         # miss
+15 07    # vload 7         # result
+63       # aadds           # &miss[result]
+15 02    # vload 2         # text
+15 06    # vload 6         # j
+63       # aadds           # &text[j]
+2F       # amload          # text[j]
+4F       # amstore         # miss[result] = text[j];
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+15 06    # vload 6         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # j += 1;
+A7 FF DC # goto -36        # goto <275:loop>
+# <277:exit>
+15 07    # vload 7         # result
+B0       # return          # 
+
+
+#<merge>
+00 05             # number of arguments = 5
+00 0C             # number of local variables = 12
+01 62             # code length = 354 bytes
+15 02    # vload 2         # hi1
+15 04    # vload 4         # hi2
+60       # iadd            # (hi1 + hi2)
+15 01    # vload 1         # lo1
+64       # isub            # ((hi1 + hi2) - lo1)
+15 03    # vload 3         # lo2
+64       # isub            # (((hi1 + hi2) - lo1) - lo2)
+36 05    # vstore 5        # leng_B = (((hi1 + hi2) - lo1) - lo2);
+15 05    # vload 5         # leng_B
+BC 08    # newarray 8      # alloc_array(string, leng_B)
+36 06    # vstore 6        # B = alloc_array(string, leng_B);
+10 00    # bipush 0        # 0
+36 07    # vstore 7        # result = 0;
+15 01    # vload 1         # lo1
+36 08    # vstore 8        # i = lo1;
+15 03    # vload 3         # lo2
+36 09    # vstore 9        # j = lo2;
+10 00    # bipush 0        # 0
+36 0A    # vstore 10       # t_B = 0;
+# <278:loop>
+15 08    # vload 8         # i
+15 02    # vload 2         # hi1
+A1 00 06 # if_icmplt +6    # if (i < hi1) goto <281:and>
+A7 00 B2 # goto +178       # goto <280:exit>
+# <281:and>
+15 09    # vload 9         # j
+15 04    # vload 4         # hi2
+A1 00 06 # if_icmplt +6    # if (j < hi2) goto <279:body>
+A7 00 A8 # goto +168       # goto <280:exit>
+# <279:body>
+15 00    # vload 0         # A
+15 08    # vload 8         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+15 00    # vload 0         # A
+15 09    # vload 9         # j
+63       # aadds           # &A[j]
+2F       # amload          # A[j]
+B7 00 01 # invokenative 1  # string_compare(A[i], A[j])
+36 0B    # vstore 11       # case = string_compare(A[i], A[j]);
+15 0B    # vload 11        # case
+10 01    # bipush 1        # 1
+9F 00 06 # if_cmpeq +6     # if (case == 1) goto <282:then>
+A7 00 27 # goto +39        # goto <283:else>
+# <282:then>
+15 06    # vload 6         # B
+15 0A    # vload 10        # t_B
+63       # aadds           # &B[t_B]
+15 00    # vload 0         # A
+15 09    # vload 9         # j
+63       # aadds           # &A[j]
+2F       # amload          # A[j]
+4F       # amstore         # B[t_B] = A[j];
+15 0A    # vload 10        # t_B
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 0A    # vstore 10       # t_B += 1;
+15 09    # vload 9         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 09    # vstore 9        # j += 1;
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+A7 00 03 # goto +3         # goto <284:endif>
+# <283:else>
+# <284:endif>
+15 0B    # vload 11        # case
+10 00    # bipush 0        # 0
+9F 00 06 # if_cmpeq +6     # if (case == 0) goto <285:then>
+A7 00 2E # goto +46        # goto <286:else>
+# <285:then>
+15 06    # vload 6         # B
+15 0A    # vload 10        # t_B
+63       # aadds           # &B[t_B]
+15 00    # vload 0         # A
+15 09    # vload 9         # j
+63       # aadds           # &A[j]
+2F       # amload          # A[j]
+4F       # amstore         # B[t_B] = A[j];
+15 09    # vload 9         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 09    # vstore 9        # j += 1;
+15 08    # vload 8         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 08    # vstore 8        # i += 1;
+15 0A    # vload 10        # t_B
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 0A    # vstore 10       # t_B += 1;
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+A7 00 03 # goto +3         # goto <287:endif>
+# <286:else>
+# <287:endif>
+15 0B    # vload 11        # case
+10 FF    # bipush -1       # -1
+9F 00 06 # if_cmpeq +6     # if (case == -(1)) goto <288:then>
+A7 00 27 # goto +39        # goto <289:else>
+# <288:then>
+15 06    # vload 6         # B
+15 0A    # vload 10        # t_B
+63       # aadds           # &B[t_B]
+15 00    # vload 0         # A
+15 08    # vload 8         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+4F       # amstore         # B[t_B] = A[i];
+15 08    # vload 8         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 08    # vstore 8        # i += 1;
+15 0A    # vload 10        # t_B
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 0A    # vstore 10       # t_B += 1;
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+A7 00 03 # goto +3         # goto <290:endif>
+# <289:else>
+# <290:endif>
+A7 FF 4A # goto -182       # goto <278:loop>
+# <280:exit>
+# <291:loop>
+15 08    # vload 8         # i
+15 02    # vload 2         # hi1
+A1 00 06 # if_icmplt +6    # if (i < hi1) goto <292:body>
+A7 00 27 # goto +39        # goto <293:exit>
+# <292:body>
+15 06    # vload 6         # B
+15 0A    # vload 10        # t_B
+63       # aadds           # &B[t_B]
+15 00    # vload 0         # A
+15 08    # vload 8         # i
+63       # aadds           # &A[i]
+2F       # amload          # A[i]
+4F       # amstore         # B[t_B] = A[i];
+15 0A    # vload 10        # t_B
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 0A    # vstore 10       # t_B += 1;
+15 08    # vload 8         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 08    # vstore 8        # i += 1;
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+A7 FF D5 # goto -43        # goto <291:loop>
+# <293:exit>
+# <294:loop>
+15 09    # vload 9         # j
+15 04    # vload 4         # hi2
+A1 00 06 # if_icmplt +6    # if (j < hi2) goto <295:body>
+A7 00 27 # goto +39        # goto <296:exit>
+# <295:body>
+15 06    # vload 6         # B
+15 0A    # vload 10        # t_B
+63       # aadds           # &B[t_B]
+15 00    # vload 0         # A
+15 09    # vload 9         # j
+63       # aadds           # &A[j]
+2F       # amload          # A[j]
+4F       # amstore         # B[t_B] = A[j];
+15 0A    # vload 10        # t_B
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 0A    # vstore 10       # t_B += 1;
+15 09    # vload 9         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 09    # vstore 9        # j += 1;
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+A7 FF D5 # goto -43        # goto <294:loop>
+# <296:exit>
+10 00    # bipush 0        # 0
+36 0B    # vstore 11       # m = 0;
+# <297:loop>
+15 0B    # vload 11        # m
+15 07    # vload 7         # result
+A1 00 06 # if_icmplt +6    # if (m < result) goto <298:body>
+A7 00 1C # goto +28        # goto <299:exit>
+# <298:body>
+15 00    # vload 0         # A
+15 01    # vload 1         # lo1
+15 0B    # vload 11        # m
+60       # iadd            # (lo1 + m)
+63       # aadds           # &A[(lo1 + m)]
+15 06    # vload 6         # B
+15 0B    # vload 11        # m
+63       # aadds           # &B[m]
+2F       # amload          # B[m]
+4F       # amstore         # A[(lo1 + m)] = B[m];
+15 0B    # vload 11        # m
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 0B    # vstore 11       # m += 1;
+A7 FF E0 # goto -32        # goto <297:loop>
+# <299:exit>
+15 07    # vload 7         # result
+B0       # return          # 
+
+
+#<mergesort>
+00 03             # number of arguments = 3
+00 0C             # number of local variables = 12
+00 61             # code length = 97 bytes
+15 02    # vload 2         # hi
+15 01    # vload 1         # lo
+64       # isub            # (hi - lo)
+10 00    # bipush 0        # 0
+9F 00 06 # if_cmpeq +6     # if ((hi - lo) == 0) goto <300:then>
+A7 00 09 # goto +9         # goto <301:else>
+# <300:then>
+10 00    # bipush 0        # 0
+B0       # return          # 
+A7 00 03 # goto +3         # goto <302:endif>
+# <301:else>
+# <302:endif>
+15 02    # vload 2         # hi
+15 01    # vload 1         # lo
+64       # isub            # (hi - lo)
+10 01    # bipush 1        # 1
+9F 00 06 # if_cmpeq +6     # if ((hi - lo) == 1) goto <303:then>
+A7 00 09 # goto +9         # goto <304:else>
+# <303:then>
+10 01    # bipush 1        # 1
+B0       # return          # 
+A7 00 03 # goto +3         # goto <305:endif>
+# <304:else>
+# <305:endif>
+15 01    # vload 1         # lo
+15 02    # vload 2         # hi
+15 01    # vload 1         # lo
+64       # isub            # (hi - lo)
+10 02    # bipush 2        # 2
+6C       # idiv            # ((hi - lo) / 2)
+60       # iadd            # (lo + ((hi - lo) / 2))
+36 03    # vstore 3        # mid = (lo + ((hi - lo) / 2));
+15 00    # vload 0         # A
+15 01    # vload 1         # lo
+15 03    # vload 3         # mid
+B8 00 32 # invokestatic 50 # mergesort(A, lo, mid)
+36 04    # vstore 4        # i = mergesort(A, lo, mid);
+15 00    # vload 0         # A
+15 03    # vload 3         # mid
+15 02    # vload 2         # hi
+B8 00 32 # invokestatic 50 # mergesort(A, mid, hi)
+36 05    # vstore 5        # j = mergesort(A, mid, hi);
+15 00    # vload 0         # A
+15 01    # vload 1         # lo
+15 01    # vload 1         # lo
+15 04    # vload 4         # i
+60       # iadd            # (lo + i)
+15 03    # vload 3         # mid
+15 03    # vload 3         # mid
+15 05    # vload 5         # j
+60       # iadd            # (mid + j)
+B8 00 31 # invokestatic 49 # merge(A, lo, (lo + i), mid, (mid + j))
+36 06    # vstore 6        # B = merge(A, lo, (lo + i), mid, (mid + j));
+15 06    # vload 6         # B
+B0       # return          # 
+
+
+#<check_text_better>
+00 05             # number of arguments = 5
+00 0C             # number of local variables = 12
+00 C3             # code length = 195 bytes
+10 00    # bipush 0        # 0
+36 05    # vstore 5        # j = 0;
+10 00    # bipush 0        # 0
+36 06    # vstore 6        # i = 0;
+10 00    # bipush 0        # 0
+36 07    # vstore 7        # result = 0;
+10 00    # bipush 0        # 0
+36 08    # vstore 8        # merge_n = 0;
+15 02    # vload 2         # text
+10 00    # bipush 0        # 0
+15 03    # vload 3         # t
+B8 00 32 # invokestatic 50 # mergesort(text, 0, t)
+36 08    # vstore 8        # merge_n = mergesort(text, 0, t);
+# <306:loop>
+15 06    # vload 6         # i
+15 01    # vload 1         # d
+A1 00 06 # if_icmplt +6    # if (i < d) goto <309:and>
+A7 00 77 # goto +119       # goto <308:exit>
+# <309:and>
+15 05    # vload 5         # j
+15 08    # vload 8         # merge_n
+A1 00 06 # if_icmplt +6    # if (j < merge_n) goto <307:body>
+A7 00 6D # goto +109       # goto <308:exit>
+# <307:body>
+15 00    # vload 0         # dict
+15 06    # vload 6         # i
+63       # aadds           # &dict[i]
+2F       # amload          # dict[i]
+15 02    # vload 2         # text
+15 05    # vload 5         # j
+63       # aadds           # &text[j]
+2F       # amload          # text[j]
+B7 00 01 # invokenative 1  # string_compare(dict[i], text[j])
+36 09    # vstore 9        # ssh = string_compare(dict[i], text[j]);
+15 09    # vload 9         # ssh
+10 00    # bipush 0        # 0
+9F 00 06 # if_cmpeq +6     # if (ssh == 0) goto <310:then>
+A7 00 14 # goto +20        # goto <311:else>
+# <310:then>
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # i += 1;
+15 05    # vload 5         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # j += 1;
+A7 00 03 # goto +3         # goto <312:endif>
+# <311:else>
+# <312:endif>
+15 09    # vload 9         # ssh
+10 FF    # bipush -1       # -1
+9F 00 06 # if_cmpeq +6     # if (ssh == -(1)) goto <313:then>
+A7 00 0D # goto +13        # goto <314:else>
+# <313:then>
+15 06    # vload 6         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 06    # vstore 6        # i += 1;
+A7 00 03 # goto +3         # goto <315:endif>
+# <314:else>
+# <315:endif>
+15 09    # vload 9         # ssh
+10 01    # bipush 1        # 1
+9F 00 06 # if_cmpeq +6     # if (ssh == 1) goto <316:then>
+A7 00 20 # goto +32        # goto <317:else>
+# <316:then>
+15 04    # vload 4         # miss
+15 07    # vload 7         # result
+63       # aadds           # &miss[result]
+15 02    # vload 2         # text
+15 05    # vload 5         # j
+63       # aadds           # &text[j]
+2F       # amload          # text[j]
+4F       # amstore         # miss[result] = text[j];
+15 05    # vload 5         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # j += 1;
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+A7 00 03 # goto +3         # goto <318:endif>
+# <317:else>
+# <318:endif>
+A7 FF 85 # goto -123       # goto <306:loop>
+# <308:exit>
+# <319:loop>
+15 05    # vload 5         # j
+15 08    # vload 8         # merge_n
+A1 00 06 # if_icmplt +6    # if (j < merge_n) goto <320:body>
+A7 00 20 # goto +32        # goto <321:exit>
+# <320:body>
+15 04    # vload 4         # miss
+15 07    # vload 7         # result
+63       # aadds           # &miss[result]
+15 02    # vload 2         # text
+15 05    # vload 5         # j
+63       # aadds           # &text[j]
+2F       # amload          # text[j]
+4F       # amstore         # miss[result] = text[j];
+15 07    # vload 7         # result
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 07    # vstore 7        # result += 1;
+15 05    # vload 5         # j
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 05    # vstore 5        # j += 1;
+A7 FF DC # goto -36        # goto <319:loop>
+# <321:exit>
+15 07    # vload 7         # result
+B0       # return          # 
+
+00 12             # native count
+# native pool
+00 02 00 5F       # string_equal
+00 02 00 5E       # string_compare
+00 01 00 09       # printint
+00 01 00 0A       # println
+00 01 00 65       # string_length
+00 02 00 5D       # string_charat
+00 03 00 66       # string_sub
+00 02 00 58       # parse_int
+00 01 00 57       # parse_bool
+00 01 00 5B       # char_chr
+00 01 00 5C       # char_ord
+00 01 00 60       # string_from_chararray
+00 01 00 69       # string_tolower
+00 01 00 41       # file_read
+00 01 00 40       # file_eof
+00 01 00 42       # file_readline
+00 02 00 64       # string_join
+00 01 00 5A       # parse_tokens
+

@@ -1,0 +1,2802 @@
+C0 C0 FF EE       # magic number
+00 13             # version 9, arch = 1 (64 bits)
+
+00 00             # int pool count
+# int pool
+
+00 6B             # string pool total size
+# string pool
+45 30 2C 20 74 68 65 20 6D 69 6E 69 6D 61 6C 69 73 74 20 65 64 69 74 6F 72 20 2D 2D 20 5E 58 20 74 6F 20 65 78 69 74 2C 20 5E 4C 20 74 6F 20 72 65 66 72 65 73 68 00  # "E0, the minimalist editor -- ^X to exit, ^L to refresh"
+20 2A 2A 00  # " **"
+3C 2E 2E 00  # "<.."
+20 3C 2D 3E 20 00  # " <-> "
+20 3C 2D 3E 20 00  # " <-> "
+2A 2A 20 00  # "** "
+2E 2E 3E 00  # "..>"
+74 68 61 6E 6B 73 20 66 6F 72 20 66 6C 79 69 6E 67 20 45 20 21 08 08 00  # "thanks for flying E !\b\b"
+
+00 27             # function count
+# function_pool
+
+#<main>
+00 00             # number of arguments = 0
+00 0D             # number of local variables = 13
+01 7D             # code length = 381 bytes
+B7 00 12 # invokenative 18 # c_initscr()
+36 00    # vstore 0        # mainwin = c_initscr();
+B7 00 13 # invokenative 19 # c_cbreak()
+57       # pop             # (ignore result)
+B7 00 14 # invokenative 20 # c_noecho()
+57       # pop             # (ignore result)
+15 00    # vload 0         # mainwin
+10 01    # bipush 1        # true
+B7 00 15 # invokenative 21 # c_keypad(mainwin, true)
+57       # pop             # (ignore result)
+10 00    # bipush 0        # 0
+B7 00 16 # invokenative 22 # c_curs_set(0)
+36 01    # vstore 1        # vis = c_curs_set(0);
+15 00    # vload 0         # mainwin
+B7 00 07 # invokenative 7  # cc_getmaxx(mainwin)
+36 02    # vstore 2        # ncols = cc_getmaxx(mainwin);
+15 00    # vload 0         # mainwin
+B7 00 17 # invokenative 23 # cc_getmaxy(mainwin)
+36 03    # vstore 3        # nlines = cc_getmaxy(mainwin);
+15 00    # vload 0         # mainwin
+B7 00 06 # invokenative 6  # cc_getbegx(mainwin)
+36 04    # vstore 4        # begx = cc_getbegx(mainwin);
+15 00    # vload 0         # mainwin
+B7 00 18 # invokenative 24 # cc_getbegy(mainwin)
+36 05    # vstore 5        # begy = cc_getbegy(mainwin);
+15 00    # vload 0         # mainwin
+15 03    # vload 3         # nlines
+10 03    # bipush 3        # 3
+64       # isub            # (nlines - 3)
+15 02    # vload 2         # ncols
+15 05    # vload 5         # begy
+10 01    # bipush 1        # 1
+60       # iadd            # (begy + 1)
+15 04    # vload 4         # begx
+B7 00 19 # invokenative 25 # c_subwin(mainwin, (nlines - 3), ncols, (begy + 1), begx)
+36 06    # vstore 6        # canvas = c_subwin(mainwin, (nlines - 3), ncols, (begy + 1), begx);
+15 00    # vload 0         # mainwin
+10 01    # bipush 1        # 1
+15 02    # vload 2         # ncols
+15 05    # vload 5         # begy
+15 04    # vload 4         # begx
+B7 00 19 # invokenative 25 # c_subwin(mainwin, 1, ncols, begy, begx)
+36 07    # vstore 7        # topbar = c_subwin(mainwin, 1, ncols, begy, begx);
+15 00    # vload 0         # mainwin
+10 01    # bipush 1        # 1
+15 02    # vload 2         # ncols
+15 03    # vload 3         # nlines
+10 02    # bipush 2        # 2
+64       # isub            # (nlines - 2)
+15 04    # vload 4         # begx
+B7 00 19 # invokenative 25 # c_subwin(mainwin, 1, ncols, (nlines - 2), begx)
+36 08    # vstore 8        # botbar = c_subwin(mainwin, 1, ncols, (nlines - 2), begx);
+15 00    # vload 0         # mainwin
+10 01    # bipush 1        # 1
+15 02    # vload 2         # ncols
+15 03    # vload 3         # nlines
+10 01    # bipush 1        # 1
+64       # isub            # (nlines - 1)
+15 04    # vload 4         # begx
+B7 00 19 # invokenative 25 # c_subwin(mainwin, 1, ncols, (nlines - 1), begx)
+36 09    # vstore 9        # minibuf = c_subwin(mainwin, 1, ncols, (nlines - 1), begx);
+B8 00 13 # invokestatic 19 # tbuf_new()
+36 0A    # vstore 10       # B = tbuf_new();
+15 07    # vload 7         # topbar
+B8 00 22 # invokestatic 34 # render_topbar(topbar)
+57       # pop             # (ignore result)
+15 08    # vload 8         # botbar
+B8 00 23 # invokestatic 35 # render_botbar(botbar)
+57       # pop             # (ignore result)
+10 01    # bipush 1        # true
+36 0B    # vstore 11       # go = true;
+# <281:loop>
+15 0B    # vload 11        # go
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (go == true) goto <282:body>
+A7 00 CD # goto +205       # goto <283:exit>
+# <282:body>
+15 0A    # vload 10        # B
+15 06    # vload 6         # canvas
+B8 00 21 # invokestatic 33 # render_buf(B, canvas)
+57       # pop             # (ignore result)
+15 0A    # vload 10        # B
+15 09    # vload 9         # minibuf
+B8 00 26 # invokestatic 38 # vrender_buf(B, minibuf)
+57       # pop             # (ignore result)
+B7 00 1A # invokenative 26 # c_getch()
+36 0C    # vstore 12       # c = c_getch();
+15 0C    # vload 12        # c
+10 18    # bipush 24       # 24
+9F 00 06 # if_cmpeq +6     # if (c == 24) goto <284:then>
+A7 00 0A # goto +10        # goto <285:else>
+# <284:then>
+10 00    # bipush 0        # false
+36 0B    # vstore 11       # go = false;
+A7 00 A4 # goto +164       # goto <286:endif>
+# <285:else>
+15 0C    # vload 12        # c
+10 0C    # bipush 12       # 12
+9F 00 06 # if_cmpeq +6     # if (c == 12) goto <287:then>
+A7 00 1E # goto +30        # goto <288:else>
+# <287:then>
+15 00    # vload 0         # mainwin
+B7 00 0F # invokenative 15 # c_wclear(mainwin)
+57       # pop             # (ignore result)
+15 07    # vload 7         # topbar
+B8 00 22 # invokestatic 34 # render_topbar(topbar)
+57       # pop             # (ignore result)
+15 08    # vload 8         # botbar
+B8 00 23 # invokestatic 35 # render_botbar(botbar)
+57       # pop             # (ignore result)
+15 00    # vload 0         # mainwin
+B7 00 05 # invokenative 5  # c_wrefresh(mainwin)
+57       # pop             # (ignore result)
+A7 00 7F # goto +127       # goto <289:endif>
+# <288:else>
+15 0C    # vload 12        # c
+B7 00 1B # invokenative 27 # cc_key_is_backspace(c)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (cc_key_is_backspace(c) == true) goto <290:then>
+A7 00 0C # goto +12        # goto <291:else>
+# <290:then>
+15 0A    # vload 10        # B
+B8 00 18 # invokestatic 24 # tbuf_delete(B)
+57       # pop             # (ignore result)
+A7 00 69 # goto +105       # goto <292:endif>
+# <291:else>
+15 0C    # vload 12        # c
+B7 00 1C # invokenative 28 # cc_key_is_left(c)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (cc_key_is_left(c) == true) goto <293:then>
+A7 00 0C # goto +12        # goto <294:else>
+# <293:then>
+15 0A    # vload 10        # B
+B8 00 16 # invokestatic 22 # tbuf_backward(B)
+57       # pop             # (ignore result)
+A7 00 53 # goto +83        # goto <295:endif>
+# <294:else>
+15 0C    # vload 12        # c
+B7 00 1D # invokenative 29 # cc_key_is_right(c)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (cc_key_is_right(c) == true) goto <296:then>
+A7 00 0C # goto +12        # goto <297:else>
+# <296:then>
+15 0A    # vload 10        # B
+B8 00 15 # invokestatic 21 # tbuf_forward(B)
+57       # pop             # (ignore result)
+A7 00 3D # goto +61        # goto <298:endif>
+# <297:else>
+15 0C    # vload 12        # c
+B7 00 1E # invokenative 30 # cc_key_is_enter(c)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (cc_key_is_enter(c) == true) goto <299:then>
+A7 00 0E # goto +14        # goto <300:else>
+# <299:then>
+15 0A    # vload 10        # B
+10 0A    # bipush 10       # '\n'
+B8 00 17 # invokestatic 23 # tbuf_insert(B, '\n')
+57       # pop             # (ignore result)
+A7 00 25 # goto +37        # goto <301:endif>
+# <300:else>
+10 00    # bipush 0        # 0
+15 0C    # vload 12        # c
+A4 00 06 # if_icmple +6    # if (0 <= c) goto <305:and>
+A7 00 1B # goto +27        # goto <303:else>
+# <305:and>
+15 0C    # vload 12        # c
+10 7F    # bipush 127      # 127
+A4 00 06 # if_icmple +6    # if (c <= 127) goto <302:then>
+A7 00 11 # goto +17        # goto <303:else>
+# <302:then>
+15 0A    # vload 10        # B
+15 0C    # vload 12        # c
+B7 00 1F # invokenative 31 # char_chr(c)
+B8 00 17 # invokestatic 23 # tbuf_insert(B, char_chr(c))
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <304:endif>
+# <303:else>
+# <304:endif>
+# <301:endif>
+# <298:endif>
+# <295:endif>
+# <292:endif>
+# <289:endif>
+# <286:endif>
+A7 FF 2F # goto -209       # goto <281:loop>
+# <283:exit>
+15 01    # vload 1         # vis
+B7 00 16 # invokenative 22 # c_curs_set(vis)
+57       # pop             # (ignore result)
+B7 00 20 # invokenative 32 # c_endwin()
+57       # pop             # (ignore result)
+14 00 53 # aldc 83         # s[83] = "thanks for flying E !\b\b"
+B7 00 21 # invokenative 33 # print("thanks for flying E !\b\b")
+57       # pop             # (ignore result)
+10 00    # bipush 0        # 0
+B0       # return          # 
+
+
+#<is_gapbuf>
+00 01             # number of arguments = 1
+00 01             # number of local variables = 1
+00 56             # code length = 86 bytes
+15 00    # vload 0         # G
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (G == NULL) goto <00:then>
+A7 00 09 # goto +9         # goto <01:else>
+# <00:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <02:endif>
+# <01:else>
+# <02:endif>
+15 00    # vload 0         # G
+62 00    # aaddf 0         # &G->limit
+2E       # imload          # G->limit
+10 00    # bipush 0        # 0
+A3 00 06 # if_icmpgt +6    # if (G->limit > 0) goto <07:and>
+A7 00 3A # goto +58        # goto <04:cond_false>
+# <07:and>
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+10 00    # bipush 0        # 0
+A2 00 06 # if_icmpge +6    # if (G->gap_start >= 0) goto <06:and>
+A7 00 2D # goto +45        # goto <04:cond_false>
+# <06:and>
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+A4 00 06 # if_icmple +6    # if (G->gap_start <= G->gap_end) goto <03:cond_true>
+A7 00 1D # goto +29        # goto <04:cond_false>
+# <03:cond_true>
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+15 00    # vload 0         # G
+62 00    # aaddf 0         # &G->limit
+2E       # imload          # G->limit
+A4 00 06 # if_icmple +6    # if (G->gap_end <= G->limit) goto <08:cond_true>
+A7 00 08 # goto +8         # goto <09:cond_false>
+# <08:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <10:cond_end>
+# <09:cond_false>
+10 00    # bipush 0        # false
+# <10:cond_end>
+A7 00 05 # goto +5         # goto <05:cond_end>
+# <04:cond_false>
+10 00    # bipush 0        # false
+# <05:cond_end>
+B0       # return          # 
+
+
+#<gapbuf_empty>
+00 01             # number of arguments = 1
+00 01             # number of local variables = 1
+00 2A             # code length = 42 bytes
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+10 00    # bipush 0        # 0
+9F 00 06 # if_cmpeq +6     # if (G->gap_start == 0) goto <11:cond_true>
+A7 00 1D # goto +29        # goto <12:cond_false>
+# <11:cond_true>
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+15 00    # vload 0         # G
+62 00    # aaddf 0         # &G->limit
+2E       # imload          # G->limit
+9F 00 06 # if_cmpeq +6     # if (G->gap_end == G->limit) goto <14:cond_true>
+A7 00 08 # goto +8         # goto <15:cond_false>
+# <14:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <16:cond_end>
+# <15:cond_false>
+10 00    # bipush 0        # false
+# <16:cond_end>
+A7 00 05 # goto +5         # goto <13:cond_end>
+# <12:cond_false>
+10 00    # bipush 0        # false
+# <13:cond_end>
+B0       # return          # 
+
+
+#<gapbuf_full>
+00 01             # number of arguments = 1
+00 01             # number of local variables = 1
+00 18             # code length = 24 bytes
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+9F 00 06 # if_cmpeq +6     # if (G->gap_start == G->gap_end) goto <17:cond_true>
+A7 00 08 # goto +8         # goto <18:cond_false>
+# <17:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <19:cond_end>
+# <18:cond_false>
+10 00    # bipush 0        # false
+# <19:cond_end>
+B0       # return          # 
+
+
+#<gapbuf_at_left>
+00 01             # number of arguments = 1
+00 01             # number of local variables = 1
+00 15             # code length = 21 bytes
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+10 00    # bipush 0        # 0
+9F 00 06 # if_cmpeq +6     # if (G->gap_start == 0) goto <20:cond_true>
+A7 00 08 # goto +8         # goto <21:cond_false>
+# <20:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <22:cond_end>
+# <21:cond_false>
+10 00    # bipush 0        # false
+# <22:cond_end>
+B0       # return          # 
+
+
+#<gapbuf_at_right>
+00 01             # number of arguments = 1
+00 01             # number of local variables = 1
+00 18             # code length = 24 bytes
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+15 00    # vload 0         # G
+62 00    # aaddf 0         # &G->limit
+2E       # imload          # G->limit
+9F 00 06 # if_cmpeq +6     # if (G->gap_end == G->limit) goto <23:cond_true>
+A7 00 08 # goto +8         # goto <24:cond_false>
+# <23:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <25:cond_end>
+# <24:cond_false>
+10 00    # bipush 0        # false
+# <25:cond_end>
+B0       # return          # 
+
+
+#<gapbuf_new>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 25             # code length = 37 bytes
+BB 18    # new 24          # alloc(gapbuf)
+36 01    # vstore 1        # new = alloc(gapbuf);
+15 01    # vload 1         # new
+62 00    # aaddf 0         # &new->limit
+15 00    # vload 0         # limit
+4E       # imstore         # new->limit = limit;
+15 01    # vload 1         # new
+62 08    # aaddf 8         # &new->buffer
+15 00    # vload 0         # limit
+BC 01    # newarray 1      # alloc_array(char, limit)
+4F       # amstore         # new->buffer = alloc_array(char, limit);
+15 01    # vload 1         # new
+62 10    # aaddf 16        # &new->gap_start
+10 00    # bipush 0        # 0
+4E       # imstore         # new->gap_start = 0;
+15 01    # vload 1         # new
+62 14    # aaddf 20        # &new->gap_end
+15 00    # vload 0         # limit
+4E       # imstore         # new->gap_end = limit;
+15 01    # vload 1         # new
+B0       # return          # 
+
+
+#<gapbuf_forward>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 32             # code length = 50 bytes
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+63       # aadds           # &G->buffer[G->gap_start]
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+63       # aadds           # &G->buffer[G->gap_end]
+34       # cmload          # G->buffer[G->gap_end]
+55       # cmstore         # G->buffer[G->gap_start] = G->buffer[G->gap_end];
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+59       # dup             # (save &G->gap_start)
+2E       # imload          # G->gap_start
+10 01    # bipush 1        # 1
+60       # iadd            # 
+4E       # imstore         # G->gap_start += 1;
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+59       # dup             # (save &G->gap_end)
+2E       # imload          # G->gap_end
+10 01    # bipush 1        # 1
+60       # iadd            # 
+4E       # imstore         # G->gap_end += 1;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<gapbuf_backward>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 32             # code length = 50 bytes
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+59       # dup             # (save &G->gap_start)
+2E       # imload          # G->gap_start
+10 01    # bipush 1        # 1
+64       # isub            # 
+4E       # imstore         # G->gap_start -= 1;
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+59       # dup             # (save &G->gap_end)
+2E       # imload          # G->gap_end
+10 01    # bipush 1        # 1
+64       # isub            # 
+4E       # imstore         # G->gap_end -= 1;
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+63       # aadds           # &G->buffer[G->gap_end]
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+63       # aadds           # &G->buffer[G->gap_start]
+34       # cmload          # G->buffer[G->gap_start]
+55       # cmstore         # G->buffer[G->gap_end] = G->buffer[G->gap_start];
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<gapbuf_insert>
+00 02             # number of arguments = 2
+00 02             # number of local variables = 2
+00 1E             # code length = 30 bytes
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+63       # aadds           # &G->buffer[G->gap_start]
+15 01    # vload 1         # c
+55       # cmstore         # G->buffer[G->gap_start] = c;
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+59       # dup             # (save &G->gap_start)
+2E       # imload          # G->gap_start
+10 01    # bipush 1        # 1
+60       # iadd            # 
+4E       # imstore         # G->gap_start += 1;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<gapbuf_delete>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 10             # code length = 16 bytes
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+59       # dup             # (save &G->gap_start)
+2E       # imload          # G->gap_start
+10 01    # bipush 1        # 1
+64       # isub            # 
+4E       # imstore         # G->gap_start -= 1;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<is_dll_pt>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 7F             # code length = 127 bytes
+15 00    # vload 0         # B
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (B == NULL) goto <39:then>
+A7 00 09 # goto +9         # goto <40:else>
+# <39:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <41:endif>
+# <40:else>
+# <41:endif>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (B->point == NULL) goto <42:then>
+A7 00 09 # goto +9         # goto <43:else>
+# <42:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <44:endif>
+# <43:else>
+# <44:endif>
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+9F 00 26 # if_cmpeq +38    # if (B->start == B->end) goto <45:then>
+A7 00 03 # goto +3         # goto <49:or>
+# <49:or>
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+9F 00 16 # if_cmpeq +22    # if (B->start == B->point) goto <45:then>
+A7 00 03 # goto +3         # goto <48:or>
+# <48:or>
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+9F 00 06 # if_cmpeq +6     # if (B->end == B->point) goto <45:then>
+A7 00 09 # goto +9         # goto <46:else>
+# <45:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <47:endif>
+# <46:else>
+# <47:endif>
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+B8 00 11 # invokestatic 17 # is_dll_segment(B->start, B->point)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_dll_segment(B->start, B->point) == true) goto <50:cond_true>
+A7 00 13 # goto +19        # goto <51:cond_false>
+# <50:cond_true>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+B8 00 11 # invokestatic 17 # is_dll_segment(B->point, B->end)
+A7 00 05 # goto +5         # goto <52:cond_end>
+# <51:cond_false>
+10 00    # bipush 0        # false
+# <52:cond_end>
+B0       # return          # 
+
+
+#<dll_pt_at_left>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 1B             # code length = 27 bytes
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+62 08    # aaddf 8         # &B->start->next
+2F       # amload          # B->start->next
+9F 00 06 # if_cmpeq +6     # if (B->point == B->start->next) goto <53:cond_true>
+A7 00 08 # goto +8         # goto <54:cond_false>
+# <53:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <55:cond_end>
+# <54:cond_false>
+10 00    # bipush 0        # false
+# <55:cond_end>
+B0       # return          # 
+
+
+#<dll_pt_at_right>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 1B             # code length = 27 bytes
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+62 10    # aaddf 16        # &B->end->prev
+2F       # amload          # B->end->prev
+9F 00 06 # if_cmpeq +6     # if (B->point == B->end->prev) goto <56:cond_true>
+A7 00 08 # goto +8         # goto <57:cond_false>
+# <56:cond_true>
+10 01    # bipush 1        # true
+A7 00 05 # goto +5         # goto <58:cond_end>
+# <57:cond_false>
+10 00    # bipush 0        # false
+# <58:cond_end>
+B0       # return          # 
+
+
+#<dll_pt_forward>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 13             # code length = 19 bytes
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+4F       # amstore         # B->point = B->point->next;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<dll_pt_backward>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 13             # code length = 19 bytes
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+4F       # amstore         # B->point = B->point->prev;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<dll_pt_delete>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 C2             # code length = 194 bytes
+15 00    # vload 0         # B
+B8 00 0D # invokestatic 13 # dll_pt_at_right(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (dll_pt_at_right(B) == true) goto <59:then>
+A7 00 39 # goto +57        # goto <60:else>
+# <59:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+4F       # amstore         # B->point = B->point->prev;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+62 08    # aaddf 8         # &B->point->next->next
+2F       # amload          # B->point->next->next
+4F       # amstore         # B->point->next = B->point->next->next;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+62 10    # aaddf 16        # &B->point->next->prev
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+4F       # amstore         # B->point->next->prev = B->point;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <61:endif>
+# <60:else>
+# <61:endif>
+15 00    # vload 0         # B
+B8 00 0C # invokestatic 12 # dll_pt_at_left(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (dll_pt_at_left(B) == true) goto <62:then>
+A7 00 3C # goto +60        # goto <63:else>
+# <62:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+4F       # amstore         # B->point = B->point->next;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+62 10    # aaddf 16        # &B->point->prev->prev
+2F       # amload          # B->point->prev->prev
+62 08    # aaddf 8         # &B->point->prev->prev->next
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+4F       # amstore         # B->point->prev->prev->next = B->point;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+62 10    # aaddf 16        # &B->point->prev->prev
+2F       # amload          # B->point->prev->prev
+4F       # amstore         # B->point->prev = B->point->prev->prev;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <64:endif>
+# <63:else>
+# <64:endif>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+4F       # amstore         # B->point = B->point->next;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+62 10    # aaddf 16        # &B->point->prev->prev
+2F       # amload          # B->point->prev->prev
+62 08    # aaddf 8         # &B->point->prev->prev->next
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+4F       # amstore         # B->point->prev->prev->next = B->point;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+62 10    # aaddf 16        # &B->point->prev->prev
+2F       # amload          # B->point->prev->prev
+4F       # amstore         # B->point->prev = B->point->prev->prev;
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<is_dll_segment>
+00 02             # number of arguments = 2
+00 02             # number of local variables = 2
+00 5A             # code length = 90 bytes
+15 00    # vload 0         # start
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (start == NULL) goto <26:then>
+A7 00 09 # goto +9         # goto <27:else>
+# <26:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <28:endif>
+# <27:else>
+# <28:endif>
+15 01    # vload 1         # end
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (end == NULL) goto <29:then>
+A7 00 09 # goto +9         # goto <30:else>
+# <29:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <31:endif>
+# <30:else>
+# <31:endif>
+15 00    # vload 0         # start
+15 01    # vload 1         # end
+9F 00 06 # if_cmpeq +6     # if (start == end) goto <32:then>
+A7 00 09 # goto +9         # goto <33:else>
+# <32:then>
+10 01    # bipush 1        # true
+B0       # return          # 
+A7 00 03 # goto +3         # goto <34:endif>
+# <33:else>
+# <34:endif>
+15 00    # vload 0         # start
+62 08    # aaddf 8         # &start->next
+2F       # amload          # start->next
+01       # aconst_null     # NULL
+A0 00 06 # if_cmpne +6     # if (start->next != NULL) goto <38:and>
+A7 00 20 # goto +32        # goto <36:cond_false>
+# <38:and>
+15 00    # vload 0         # start
+62 08    # aaddf 8         # &start->next
+2F       # amload          # start->next
+62 10    # aaddf 16        # &start->next->prev
+2F       # amload          # start->next->prev
+15 00    # vload 0         # start
+9F 00 06 # if_cmpeq +6     # if (start->next->prev == start) goto <35:cond_true>
+A7 00 10 # goto +16        # goto <36:cond_false>
+# <35:cond_true>
+15 00    # vload 0         # start
+62 08    # aaddf 8         # &start->next
+2F       # amload          # start->next
+15 01    # vload 1         # end
+B8 00 11 # invokestatic 17 # is_dll_segment(start->next, end)
+A7 00 05 # goto +5         # goto <37:cond_end>
+# <36:cond_false>
+10 00    # bipush 0        # false
+# <37:cond_end>
+B0       # return          # 
+
+
+#<is_tbuf>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 94             # code length = 148 bytes
+15 00    # vload 0         # B
+01       # aconst_null     # NULL
+9F 00 06 # if_cmpeq +6     # if (B == NULL) goto <102:then>
+A7 00 09 # goto +9         # goto <103:else>
+# <102:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 88 # goto +136       # goto <104:endif>
+# <103:else>
+15 00    # vload 0         # B
+B8 00 0B # invokestatic 11 # is_dll_pt(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_dll_pt(B) == true) goto <110:and>
+A7 00 1D # goto +29        # goto <108:or>
+# <110:and>
+15 00    # vload 0         # B
+B8 00 19 # invokestatic 25 # is_gap_buffer(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_gap_buffer(B) == true) goto <109:and>
+A7 00 10 # goto +16        # goto <108:or>
+# <109:and>
+15 00    # vload 0         # B
+B8 00 1B # invokestatic 27 # is_single_empty(B)
+10 01    # bipush 1        # true
+9F 00 2D # if_cmpeq +45    # if (is_single_empty(B) == true) goto <105:cond_true>
+A7 00 03 # goto +3         # goto <108:or>
+# <108:or>
+15 00    # vload 0         # B
+B8 00 0B # invokestatic 11 # is_dll_pt(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_dll_pt(B) == true) goto <112:and>
+A7 00 22 # goto +34        # goto <106:cond_false>
+# <112:and>
+15 00    # vload 0         # B
+B8 00 19 # invokestatic 25 # is_gap_buffer(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_gap_buffer(B) == true) goto <111:and>
+A7 00 15 # goto +21        # goto <106:cond_false>
+# <111:and>
+15 00    # vload 0         # B
+B8 00 1C # invokestatic 28 # is_single_nonempty(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_single_nonempty(B) == true) goto <105:cond_true>
+A7 00 08 # goto +8         # goto <106:cond_false>
+# <105:cond_true>
+10 01    # bipush 1        # true
+A7 00 34 # goto +52        # goto <107:cond_end>
+# <106:cond_false>
+15 00    # vload 0         # B
+B8 00 0B # invokestatic 11 # is_dll_pt(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_dll_pt(B) == true) goto <117:and>
+A7 00 25 # goto +37        # goto <114:cond_false>
+# <117:and>
+15 00    # vload 0         # B
+B8 00 19 # invokestatic 25 # is_gap_buffer(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_gap_buffer(B) == true) goto <116:and>
+A7 00 18 # goto +24        # goto <114:cond_false>
+# <116:and>
+15 00    # vload 0         # B
+B8 00 1D # invokestatic 29 # check_not_empty(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (check_not_empty(B) == true) goto <113:cond_true>
+A7 00 0B # goto +11        # goto <114:cond_false>
+# <113:cond_true>
+15 00    # vload 0         # B
+B8 00 1E # invokestatic 30 # is_aligned(B)
+A7 00 05 # goto +5         # goto <115:cond_end>
+# <114:cond_false>
+10 00    # bipush 0        # false
+# <115:cond_end>
+# <107:cond_end>
+B0       # return          # 
+# <104:endif>
+
+
+#<tbuf_new>
+00 00             # number of arguments = 0
+00 02             # number of local variables = 2
+00 5D             # code length = 93 bytes
+BB 18    # new 24          # alloc(tbuf)
+36 00    # vstore 0        # new = alloc(tbuf);
+15 00    # vload 0         # new
+62 00    # aaddf 0         # &new->start
+BB 18    # new 24          # alloc(dll)
+4F       # amstore         # new->start = alloc(dll);
+15 00    # vload 0         # new
+62 08    # aaddf 8         # &new->point
+BB 18    # new 24          # alloc(dll)
+4F       # amstore         # new->point = alloc(dll);
+15 00    # vload 0         # new
+62 08    # aaddf 8         # &new->point
+2F       # amload          # new->point
+62 00    # aaddf 0         # &new->point->data
+10 10    # bipush 16       # 16
+B8 00 06 # invokestatic 6  # gapbuf_new(16)
+4F       # amstore         # new->point->data = gapbuf_new(16);
+15 00    # vload 0         # new
+62 10    # aaddf 16        # &new->end
+BB 18    # new 24          # alloc(dll)
+4F       # amstore         # new->end = alloc(dll);
+15 00    # vload 0         # new
+62 00    # aaddf 0         # &new->start
+2F       # amload          # new->start
+62 08    # aaddf 8         # &new->start->next
+15 00    # vload 0         # new
+62 08    # aaddf 8         # &new->point
+2F       # amload          # new->point
+4F       # amstore         # new->start->next = new->point;
+15 00    # vload 0         # new
+62 08    # aaddf 8         # &new->point
+2F       # amload          # new->point
+62 08    # aaddf 8         # &new->point->next
+15 00    # vload 0         # new
+62 10    # aaddf 16        # &new->end
+2F       # amload          # new->end
+4F       # amstore         # new->point->next = new->end;
+15 00    # vload 0         # new
+62 08    # aaddf 8         # &new->point
+2F       # amload          # new->point
+62 10    # aaddf 16        # &new->point->prev
+15 00    # vload 0         # new
+62 00    # aaddf 0         # &new->start
+2F       # amload          # new->start
+4F       # amstore         # new->point->prev = new->start;
+15 00    # vload 0         # new
+62 10    # aaddf 16        # &new->end
+2F       # amload          # new->end
+62 10    # aaddf 16        # &new->end->prev
+15 00    # vload 0         # new
+62 08    # aaddf 8         # &new->point
+2F       # amload          # new->point
+4F       # amstore         # new->end->prev = new->point;
+15 00    # vload 0         # new
+B0       # return          # 
+
+
+#<tbuf_split_pt>
+00 01             # number of arguments = 1
+00 05             # number of local variables = 5
+01 FA             # code length = 506 bytes
+10 00    # bipush 0        # 0
+36 01    # vstore 1        # i = 0;
+BB 18    # new 24          # alloc(dll)
+36 02    # vstore 2        # new_node_1 = alloc(dll);
+15 02    # vload 2         # new_node_1
+62 00    # aaddf 0         # &new_node_1->data
+10 10    # bipush 16       # 16
+B8 00 06 # invokestatic 6  # gapbuf_new(16)
+4F       # amstore         # new_node_1->data = gapbuf_new(16);
+BB 18    # new 24          # alloc(dll)
+36 03    # vstore 3        # new_node_2 = alloc(dll);
+15 03    # vload 3         # new_node_2
+62 00    # aaddf 0         # &new_node_2->data
+10 10    # bipush 16       # 16
+B8 00 06 # invokestatic 6  # gapbuf_new(16)
+4F       # amstore         # new_node_2->data = gapbuf_new(16);
+# <118:loop>
+15 01    # vload 1         # i
+10 10    # bipush 16       # 16
+A1 00 06 # if_icmplt +6    # if (i < 16) goto <119:body>
+A7 00 43 # goto +67        # goto <120:exit>
+# <119:body>
+15 02    # vload 2         # new_node_1
+62 00    # aaddf 0         # &new_node_1->data
+2F       # amload          # new_node_1->data
+62 08    # aaddf 8         # &new_node_1->data->buffer
+2F       # amload          # new_node_1->data->buffer
+15 01    # vload 1         # i
+63       # aadds           # &new_node_1->data->buffer[i]
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 08    # aaddf 8         # &B->point->data->buffer
+2F       # amload          # B->point->data->buffer
+15 01    # vload 1         # i
+63       # aadds           # &B->point->data->buffer[i]
+34       # cmload          # B->point->data->buffer[i]
+55       # cmstore         # new_node_1->data->buffer[i] = B->point->data->buffer[i];
+15 03    # vload 3         # new_node_2
+62 00    # aaddf 0         # &new_node_2->data
+2F       # amload          # new_node_2->data
+62 08    # aaddf 8         # &new_node_2->data->buffer
+2F       # amload          # new_node_2->data->buffer
+15 01    # vload 1         # i
+63       # aadds           # &new_node_2->data->buffer[i]
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 08    # aaddf 8         # &B->point->data->buffer
+2F       # amload          # B->point->data->buffer
+15 01    # vload 1         # i
+63       # aadds           # &B->point->data->buffer[i]
+34       # cmload          # B->point->data->buffer[i]
+55       # cmstore         # new_node_2->data->buffer[i] = B->point->data->buffer[i];
+15 01    # vload 1         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 01    # vstore 1        # i += 1;
+A7 FF B9 # goto -71        # goto <118:loop>
+# <120:exit>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 10    # aaddf 16        # &B->point->data->gap_start
+2E       # imload          # B->point->data->gap_start
+10 08    # bipush 8        # 8
+A1 00 06 # if_icmplt +6    # if (B->point->data->gap_start < 8) goto <121:then>
+A7 00 82 # goto +130       # goto <122:else>
+# <121:then>
+15 03    # vload 3         # new_node_2
+62 00    # aaddf 0         # &new_node_2->data
+2F       # amload          # new_node_2->data
+62 10    # aaddf 16        # &new_node_2->data->gap_start
+10 00    # bipush 0        # 0
+4E       # imstore         # new_node_2->data->gap_start = 0;
+15 03    # vload 3         # new_node_2
+62 00    # aaddf 0         # &new_node_2->data
+2F       # amload          # new_node_2->data
+62 14    # aaddf 20        # &new_node_2->data->gap_end
+10 08    # bipush 8        # 8
+4E       # imstore         # new_node_2->data->gap_end = 8;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 14    # aaddf 20        # &B->point->data->gap_end
+2E       # imload          # B->point->data->gap_end
+36 04    # vstore 4        # t = B->point->data->gap_end;
+# <124:loop>
+15 04    # vload 4         # t
+10 08    # bipush 8        # 8
+A1 00 06 # if_icmplt +6    # if (t < 8) goto <125:body>
+A7 00 2B # goto +43        # goto <126:exit>
+# <125:body>
+15 02    # vload 2         # new_node_1
+62 00    # aaddf 0         # &new_node_1->data
+2F       # amload          # new_node_1->data
+62 08    # aaddf 8         # &new_node_1->data->buffer
+2F       # amload          # new_node_1->data->buffer
+15 04    # vload 4         # t
+10 08    # bipush 8        # 8
+60       # iadd            # (t + 8)
+63       # aadds           # &new_node_1->data->buffer[(t + 8)]
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 08    # aaddf 8         # &B->point->data->buffer
+2F       # amload          # B->point->data->buffer
+15 04    # vload 4         # t
+63       # aadds           # &B->point->data->buffer[t]
+34       # cmload          # B->point->data->buffer[t]
+55       # cmstore         # new_node_1->data->buffer[(t + 8)] = B->point->data->buffer[t];
+15 04    # vload 4         # t
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # t += 1;
+A7 FF D1 # goto -47        # goto <124:loop>
+# <126:exit>
+15 02    # vload 2         # new_node_1
+62 00    # aaddf 0         # &new_node_1->data
+2F       # amload          # new_node_1->data
+62 10    # aaddf 16        # &new_node_1->data->gap_start
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 10    # aaddf 16        # &B->point->data->gap_start
+2E       # imload          # B->point->data->gap_start
+4E       # imstore         # new_node_1->data->gap_start = B->point->data->gap_start;
+15 02    # vload 2         # new_node_1
+62 00    # aaddf 0         # &new_node_1->data
+2F       # amload          # new_node_1->data
+62 14    # aaddf 20        # &new_node_1->data->gap_end
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 10    # aaddf 16        # &B->point->data->gap_start
+2E       # imload          # B->point->data->gap_start
+10 08    # bipush 8        # 8
+60       # iadd            # (B->point->data->gap_start + 8)
+4E       # imstore         # new_node_1->data->gap_end = (B->point->data->gap_start + 8);
+A7 00 03 # goto +3         # goto <123:endif>
+# <122:else>
+# <123:endif>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 10    # aaddf 16        # &B->point->data->gap_start
+2E       # imload          # B->point->data->gap_start
+10 08    # bipush 8        # 8
+A2 00 06 # if_icmpge +6    # if (B->point->data->gap_start >= 8) goto <127:then>
+A7 00 82 # goto +130       # goto <128:else>
+# <127:then>
+15 02    # vload 2         # new_node_1
+62 00    # aaddf 0         # &new_node_1->data
+2F       # amload          # new_node_1->data
+62 10    # aaddf 16        # &new_node_1->data->gap_start
+10 08    # bipush 8        # 8
+4E       # imstore         # new_node_1->data->gap_start = 8;
+15 02    # vload 2         # new_node_1
+62 00    # aaddf 0         # &new_node_1->data
+2F       # amload          # new_node_1->data
+62 14    # aaddf 20        # &new_node_1->data->gap_end
+10 10    # bipush 16       # 16
+4E       # imstore         # new_node_1->data->gap_end = 16;
+10 08    # bipush 8        # 8
+36 04    # vstore 4        # m = 8;
+# <130:loop>
+15 04    # vload 4         # m
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 10    # aaddf 16        # &B->point->data->gap_start
+2E       # imload          # B->point->data->gap_start
+A1 00 06 # if_icmplt +6    # if (m < B->point->data->gap_start) goto <131:body>
+A7 00 2B # goto +43        # goto <132:exit>
+# <131:body>
+15 03    # vload 3         # new_node_2
+62 00    # aaddf 0         # &new_node_2->data
+2F       # amload          # new_node_2->data
+62 08    # aaddf 8         # &new_node_2->data->buffer
+2F       # amload          # new_node_2->data->buffer
+15 04    # vload 4         # m
+10 08    # bipush 8        # 8
+64       # isub            # (m - 8)
+63       # aadds           # &new_node_2->data->buffer[(m - 8)]
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 08    # aaddf 8         # &B->point->data->buffer
+2F       # amload          # B->point->data->buffer
+15 04    # vload 4         # m
+63       # aadds           # &B->point->data->buffer[m]
+34       # cmload          # B->point->data->buffer[m]
+55       # cmstore         # new_node_2->data->buffer[(m - 8)] = B->point->data->buffer[m];
+15 04    # vload 4         # m
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 04    # vstore 4        # m += 1;
+A7 FF C8 # goto -56        # goto <130:loop>
+# <132:exit>
+15 03    # vload 3         # new_node_2
+62 00    # aaddf 0         # &new_node_2->data
+2F       # amload          # new_node_2->data
+62 10    # aaddf 16        # &new_node_2->data->gap_start
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 10    # aaddf 16        # &B->point->data->gap_start
+2E       # imload          # B->point->data->gap_start
+10 08    # bipush 8        # 8
+64       # isub            # (B->point->data->gap_start - 8)
+4E       # imstore         # new_node_2->data->gap_start = (B->point->data->gap_start - 8);
+15 03    # vload 3         # new_node_2
+62 00    # aaddf 0         # &new_node_2->data
+2F       # amload          # new_node_2->data
+62 14    # aaddf 20        # &new_node_2->data->gap_end
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 14    # aaddf 20        # &B->point->data->gap_end
+2E       # imload          # B->point->data->gap_end
+4E       # imstore         # new_node_2->data->gap_end = B->point->data->gap_end;
+A7 00 03 # goto +3         # goto <129:endif>
+# <128:else>
+# <129:endif>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+62 08    # aaddf 8         # &B->point->prev->next
+15 02    # vload 2         # new_node_1
+4F       # amstore         # B->point->prev->next = new_node_1;
+15 02    # vload 2         # new_node_1
+62 10    # aaddf 16        # &new_node_1->prev
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+4F       # amstore         # new_node_1->prev = B->point->prev;
+15 02    # vload 2         # new_node_1
+62 08    # aaddf 8         # &new_node_1->next
+15 03    # vload 3         # new_node_2
+4F       # amstore         # new_node_1->next = new_node_2;
+15 03    # vload 3         # new_node_2
+62 10    # aaddf 16        # &new_node_2->prev
+15 02    # vload 2         # new_node_1
+4F       # amstore         # new_node_2->prev = new_node_1;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+62 10    # aaddf 16        # &B->point->next->prev
+15 03    # vload 3         # new_node_2
+4F       # amstore         # B->point->next->prev = new_node_2;
+15 03    # vload 3         # new_node_2
+62 08    # aaddf 8         # &new_node_2->next
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+4F       # amstore         # new_node_2->next = B->point->next;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+62 10    # aaddf 16        # &B->point->data->gap_start
+2E       # imload          # B->point->data->gap_start
+10 08    # bipush 8        # 8
+A1 00 06 # if_icmplt +6    # if (B->point->data->gap_start < 8) goto <133:then>
+A7 00 0D # goto +13        # goto <134:else>
+# <133:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+15 02    # vload 2         # new_node_1
+4F       # amstore         # B->point = new_node_1;
+A7 00 0A # goto +10        # goto <135:endif>
+# <134:else>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+15 03    # vload 3         # new_node_2
+4F       # amstore         # B->point = new_node_2;
+# <135:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<tbuf_forward>
+00 01             # number of arguments = 1
+00 05             # number of local variables = 5
+00 D4             # code length = 212 bytes
+15 00    # vload 0         # B
+B8 00 1B # invokestatic 27 # is_single_empty(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_single_empty(B) == true) goto <136:then>
+A7 00 09 # goto +9         # goto <137:else>
+# <136:then>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <138:endif>
+# <137:else>
+# <138:endif>
+15 00    # vload 0         # B
+B8 00 1C # invokestatic 28 # is_single_nonempty(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_single_nonempty(B) == true) goto <139:then>
+A7 00 28 # goto +40        # goto <140:else>
+# <139:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 05 # invokestatic 5  # gapbuf_at_right(B->point->data)
+10 01    # bipush 1        # true
+9F 00 15 # if_cmpeq +21    # if (gapbuf_at_right(B->point->data) == true) goto <143:else>
+A7 00 03 # goto +3         # goto <142:then>
+# <142:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 07 # invokestatic 7  # gapbuf_forward(B->point->data)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <144:endif>
+# <143:else>
+# <144:endif>
+A7 00 03 # goto +3         # goto <141:endif>
+# <140:else>
+# <141:endif>
+15 00    # vload 0         # B
+B8 00 1A # invokestatic 26 # is_single_node(B)
+10 01    # bipush 1        # true
+9F 00 82 # if_cmpeq +130   # if (is_single_node(B) == true) goto <146:else>
+A7 00 03 # goto +3         # goto <145:then>
+# <145:then>
+15 00    # vload 0         # B
+B8 00 0D # invokestatic 13 # dll_pt_at_right(B)
+10 01    # bipush 1        # true
+9F 00 3D # if_cmpeq +61    # if (dll_pt_at_right(B) == true) goto <149:else>
+A7 00 03 # goto +3         # goto <148:then>
+# <148:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 05 # invokestatic 5  # gapbuf_at_right(B->point->data)
+10 01    # bipush 1        # true
+9F 00 15 # if_cmpeq +21    # if (gapbuf_at_right(B->point->data) == true) goto <152:else>
+A7 00 03 # goto +3         # goto <151:then>
+# <151:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 07 # invokestatic 7  # gapbuf_forward(B->point->data)
+57       # pop             # (ignore result)
+A7 00 15 # goto +21        # goto <153:endif>
+# <152:else>
+15 00    # vload 0         # B
+B8 00 0E # invokestatic 14 # dll_pt_forward(B)
+57       # pop             # (ignore result)
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 07 # invokestatic 7  # gapbuf_forward(B->point->data)
+57       # pop             # (ignore result)
+# <153:endif>
+A7 00 38 # goto +56        # goto <150:endif>
+# <149:else>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 02 # invokestatic 2  # gapbuf_empty(B->point->data)
+10 01    # bipush 1        # true
+9F 00 28 # if_cmpeq +40    # if (gapbuf_empty(B->point->data) == true) goto <155:else>
+A7 00 03 # goto +3         # goto <157:and>
+# <157:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 05 # invokestatic 5  # gapbuf_at_right(B->point->data)
+10 01    # bipush 1        # true
+9F 00 15 # if_cmpeq +21    # if (gapbuf_at_right(B->point->data) == true) goto <155:else>
+A7 00 03 # goto +3         # goto <154:then>
+# <154:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 07 # invokestatic 7  # gapbuf_forward(B->point->data)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <156:endif>
+# <155:else>
+# <156:endif>
+# <150:endif>
+A7 00 03 # goto +3         # goto <147:endif>
+# <146:else>
+# <147:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<tbuf_backward>
+00 01             # number of arguments = 1
+00 05             # number of local variables = 5
+00 D4             # code length = 212 bytes
+15 00    # vload 0         # B
+B8 00 1B # invokestatic 27 # is_single_empty(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_single_empty(B) == true) goto <158:then>
+A7 00 09 # goto +9         # goto <159:else>
+# <158:then>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <160:endif>
+# <159:else>
+# <160:endif>
+15 00    # vload 0         # B
+B8 00 1C # invokestatic 28 # is_single_nonempty(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_single_nonempty(B) == true) goto <161:then>
+A7 00 28 # goto +40        # goto <162:else>
+# <161:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 04 # invokestatic 4  # gapbuf_at_left(B->point->data)
+10 01    # bipush 1        # true
+9F 00 15 # if_cmpeq +21    # if (gapbuf_at_left(B->point->data) == true) goto <165:else>
+A7 00 03 # goto +3         # goto <164:then>
+# <164:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 08 # invokestatic 8  # gapbuf_backward(B->point->data)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <166:endif>
+# <165:else>
+# <166:endif>
+A7 00 03 # goto +3         # goto <163:endif>
+# <162:else>
+# <163:endif>
+15 00    # vload 0         # B
+B8 00 1A # invokestatic 26 # is_single_node(B)
+10 01    # bipush 1        # true
+9F 00 82 # if_cmpeq +130   # if (is_single_node(B) == true) goto <168:else>
+A7 00 03 # goto +3         # goto <167:then>
+# <167:then>
+15 00    # vload 0         # B
+B8 00 0C # invokestatic 12 # dll_pt_at_left(B)
+10 01    # bipush 1        # true
+9F 00 3D # if_cmpeq +61    # if (dll_pt_at_left(B) == true) goto <171:else>
+A7 00 03 # goto +3         # goto <170:then>
+# <170:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 04 # invokestatic 4  # gapbuf_at_left(B->point->data)
+10 01    # bipush 1        # true
+9F 00 15 # if_cmpeq +21    # if (gapbuf_at_left(B->point->data) == true) goto <174:else>
+A7 00 03 # goto +3         # goto <173:then>
+# <173:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 08 # invokestatic 8  # gapbuf_backward(B->point->data)
+57       # pop             # (ignore result)
+A7 00 15 # goto +21        # goto <175:endif>
+# <174:else>
+15 00    # vload 0         # B
+B8 00 0F # invokestatic 15 # dll_pt_backward(B)
+57       # pop             # (ignore result)
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 08 # invokestatic 8  # gapbuf_backward(B->point->data)
+57       # pop             # (ignore result)
+# <175:endif>
+A7 00 38 # goto +56        # goto <172:endif>
+# <171:else>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 02 # invokestatic 2  # gapbuf_empty(B->point->data)
+10 01    # bipush 1        # true
+9F 00 28 # if_cmpeq +40    # if (gapbuf_empty(B->point->data) == true) goto <177:else>
+A7 00 03 # goto +3         # goto <179:and>
+# <179:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 04 # invokestatic 4  # gapbuf_at_left(B->point->data)
+10 01    # bipush 1        # true
+9F 00 15 # if_cmpeq +21    # if (gapbuf_at_left(B->point->data) == true) goto <177:else>
+A7 00 03 # goto +3         # goto <176:then>
+# <176:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 08 # invokestatic 8  # gapbuf_backward(B->point->data)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <178:endif>
+# <177:else>
+# <178:endif>
+# <172:endif>
+A7 00 03 # goto +3         # goto <169:endif>
+# <168:else>
+# <169:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<tbuf_insert>
+00 02             # number of arguments = 2
+00 05             # number of local variables = 5
+00 30             # code length = 48 bytes
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 03 # invokestatic 3  # gapbuf_full(B->point->data)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (gapbuf_full(B->point->data) == true) goto <180:then>
+A7 00 0C # goto +12        # goto <181:else>
+# <180:then>
+15 00    # vload 0         # B
+B8 00 14 # invokestatic 20 # tbuf_split_pt(B)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <182:endif>
+# <181:else>
+# <182:endif>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+15 01    # vload 1         # c
+B8 00 09 # invokestatic 9  # gapbuf_insert(B->point->data, c)
+57       # pop             # (ignore result)
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<tbuf_delete>
+00 01             # number of arguments = 1
+00 05             # number of local variables = 5
+01 50             # code length = 336 bytes
+15 00    # vload 0         # B
+B8 00 1B # invokestatic 27 # is_single_empty(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_single_empty(B) == true) goto <183:then>
+A7 00 09 # goto +9         # goto <184:else>
+# <183:then>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <185:endif>
+# <184:else>
+# <185:endif>
+15 00    # vload 0         # B
+B8 00 0C # invokestatic 12 # dll_pt_at_left(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (dll_pt_at_left(B) == true) goto <189:and>
+A7 00 1C # goto +28        # goto <187:else>
+# <189:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 04 # invokestatic 4  # gapbuf_at_left(B->point->data)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (gapbuf_at_left(B->point->data) == true) goto <186:then>
+A7 00 09 # goto +9         # goto <187:else>
+# <186:then>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <188:endif>
+# <187:else>
+# <188:endif>
+15 00    # vload 0         # B
+B8 00 0C # invokestatic 12 # dll_pt_at_left(B)
+10 01    # bipush 1        # true
+9F 00 54 # if_cmpeq +84    # if (dll_pt_at_left(B) == true) goto <191:else>
+A7 00 03 # goto +3         # goto <193:and>
+# <193:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 04 # invokestatic 4  # gapbuf_at_left(B->point->data)
+10 01    # bipush 1        # true
+9F 00 41 # if_cmpeq +65    # if (gapbuf_at_left(B->point->data) == true) goto <191:else>
+A7 00 03 # goto +3         # goto <190:then>
+# <190:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 0A # invokestatic 10 # gapbuf_delete(B->point->data)
+57       # pop             # (ignore result)
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 02 # invokestatic 2  # gapbuf_empty(B->point->data)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (gapbuf_empty(B->point->data) == true) goto <197:and>
+A7 00 19 # goto +25        # goto <195:else>
+# <197:and>
+15 00    # vload 0         # B
+B8 00 1A # invokestatic 26 # is_single_node(B)
+10 01    # bipush 1        # true
+9F 00 0F # if_cmpeq +15    # if (is_single_node(B) == true) goto <195:else>
+A7 00 03 # goto +3         # goto <194:then>
+# <194:then>
+15 00    # vload 0         # B
+B8 00 10 # invokestatic 16 # dll_pt_delete(B)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <196:endif>
+# <195:else>
+# <196:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <192:endif>
+# <191:else>
+# <192:endif>
+15 00    # vload 0         # B
+B8 00 0C # invokestatic 12 # dll_pt_at_left(B)
+10 01    # bipush 1        # true
+9F 00 54 # if_cmpeq +84    # if (dll_pt_at_left(B) == true) goto <199:else>
+A7 00 03 # goto +3         # goto <201:and>
+# <201:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 04 # invokestatic 4  # gapbuf_at_left(B->point->data)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (gapbuf_at_left(B->point->data) == true) goto <198:then>
+A7 00 3E # goto +62        # goto <199:else>
+# <198:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+4F       # amstore         # B->point = B->point->prev;
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 0A # invokestatic 10 # gapbuf_delete(B->point->data)
+57       # pop             # (ignore result)
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 02 # invokestatic 2  # gapbuf_empty(B->point->data)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (gapbuf_empty(B->point->data) == true) goto <202:then>
+A7 00 0C # goto +12        # goto <203:else>
+# <202:then>
+15 00    # vload 0         # B
+B8 00 10 # invokestatic 16 # dll_pt_delete(B)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <204:endif>
+# <203:else>
+# <204:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <200:endif>
+# <199:else>
+# <200:endif>
+15 00    # vload 0         # B
+B8 00 0C # invokestatic 12 # dll_pt_at_left(B)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (dll_pt_at_left(B) == true) goto <208:and>
+A7 00 51 # goto +81        # goto <206:else>
+# <208:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 04 # invokestatic 4  # gapbuf_at_left(B->point->data)
+10 01    # bipush 1        # true
+9F 00 41 # if_cmpeq +65    # if (gapbuf_at_left(B->point->data) == true) goto <206:else>
+A7 00 03 # goto +3         # goto <205:then>
+# <205:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 0A # invokestatic 10 # gapbuf_delete(B->point->data)
+57       # pop             # (ignore result)
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 02 # invokestatic 2  # gapbuf_empty(B->point->data)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (gapbuf_empty(B->point->data) == true) goto <212:and>
+A7 00 19 # goto +25        # goto <210:else>
+# <212:and>
+15 00    # vload 0         # B
+B8 00 1A # invokestatic 26 # is_single_node(B)
+10 01    # bipush 1        # true
+9F 00 0F # if_cmpeq +15    # if (is_single_node(B) == true) goto <210:else>
+A7 00 03 # goto +3         # goto <209:then>
+# <209:then>
+15 00    # vload 0         # B
+B8 00 10 # invokestatic 16 # dll_pt_delete(B)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <211:endif>
+# <210:else>
+# <211:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+A7 00 03 # goto +3         # goto <207:endif>
+# <206:else>
+# <207:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<is_gap_buffer>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 4A             # code length = 74 bytes
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+62 08    # aaddf 8         # &B->start->next
+2F       # amload          # B->start->next
+36 01    # vstore 1        # node = B->start->next;
+# <65:loop>
+15 01    # vload 1         # node
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+A0 00 06 # if_cmpne +6     # if (node != B->end) goto <66:body>
+A7 00 33 # goto +51        # goto <67:exit>
+# <66:body>
+15 01    # vload 1         # node
+62 00    # aaddf 0         # &node->data
+2F       # amload          # node->data
+B8 00 01 # invokestatic 1  # is_gapbuf(node->data)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (is_gapbuf(node->data) == true) goto <71:or>
+A7 00 13 # goto +19        # goto <68:then>
+# <71:or>
+15 01    # vload 1         # node
+62 00    # aaddf 0         # &node->data
+2F       # amload          # node->data
+62 00    # aaddf 0         # &node->data->limit
+2E       # imload          # node->data->limit
+10 10    # bipush 16       # 16
+A0 00 06 # if_cmpne +6     # if (node->data->limit != 16) goto <68:then>
+A7 00 09 # goto +9         # goto <69:else>
+# <68:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <70:endif>
+# <69:else>
+# <70:endif>
+15 01    # vload 1         # node
+62 08    # aaddf 8         # &node->next
+2F       # amload          # node->next
+36 01    # vstore 1        # node = node->next;
+A7 FF C6 # goto -58        # goto <65:loop>
+# <67:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<is_single_node>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 2F             # code length = 47 bytes
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+62 08    # aaddf 8         # &B->start->next
+2F       # amload          # B->start->next
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+9F 00 06 # if_cmpeq +6     # if (B->start->next == B->point) goto <75:and>
+A7 00 1C # goto +28        # goto <73:else>
+# <75:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+9F 00 06 # if_cmpeq +6     # if (B->point->next == B->end) goto <72:then>
+A7 00 09 # goto +9         # goto <73:else>
+# <72:then>
+10 01    # bipush 1        # true
+B0       # return          # 
+A7 00 03 # goto +3         # goto <74:endif>
+# <73:else>
+# <74:endif>
+10 00    # bipush 0        # false
+B0       # return          # 
+
+
+#<is_single_empty>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 38             # code length = 56 bytes
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+62 08    # aaddf 8         # &B->start->next
+2F       # amload          # B->start->next
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+9F 00 06 # if_cmpeq +6     # if (B->start->next == B->point) goto <79:and>
+A7 00 25 # goto +37        # goto <77:else>
+# <79:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+9F 00 06 # if_cmpeq +6     # if (B->point->next == B->end) goto <76:then>
+A7 00 12 # goto +18        # goto <77:else>
+# <76:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 02 # invokestatic 2  # gapbuf_empty(B->point->data)
+B0       # return          # 
+A7 00 03 # goto +3         # goto <78:endif>
+# <77:else>
+# <78:endif>
+10 00    # bipush 0        # false
+B0       # return          # 
+
+
+#<is_single_nonempty>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 3B             # code length = 59 bytes
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+62 08    # aaddf 8         # &B->start->next
+2F       # amload          # B->start->next
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+9F 00 06 # if_cmpeq +6     # if (B->start->next == B->point) goto <83:and>
+A7 00 28 # goto +40        # goto <81:else>
+# <83:and>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+9F 00 06 # if_cmpeq +6     # if (B->point->next == B->end) goto <80:then>
+A7 00 15 # goto +21        # goto <81:else>
+# <80:then>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 00    # aaddf 0         # &B->point->data
+2F       # amload          # B->point->data
+B8 00 02 # invokestatic 2  # gapbuf_empty(B->point->data)
+10 01    # bipush 1        # 
+82       # ixor            # !(gapbuf_empty(B->point->data))
+B0       # return          # 
+A7 00 03 # goto +3         # goto <82:endif>
+# <81:else>
+# <82:endif>
+10 00    # bipush 0        # false
+B0       # return          # 
+
+
+#<check_not_empty>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 3A             # code length = 58 bytes
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+62 08    # aaddf 8         # &B->start->next
+2F       # amload          # B->start->next
+36 01    # vstore 1        # node = B->start->next;
+# <84:loop>
+15 01    # vload 1         # node
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+A0 00 06 # if_cmpne +6     # if (node != B->end) goto <85:body>
+A7 00 23 # goto +35        # goto <86:exit>
+# <85:body>
+15 01    # vload 1         # node
+62 00    # aaddf 0         # &node->data
+2F       # amload          # node->data
+B8 00 02 # invokestatic 2  # gapbuf_empty(node->data)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (gapbuf_empty(node->data) == true) goto <87:then>
+A7 00 09 # goto +9         # goto <88:else>
+# <87:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <89:endif>
+# <88:else>
+# <89:endif>
+15 01    # vload 1         # node
+62 08    # aaddf 8         # &node->next
+2F       # amload          # node->next
+36 01    # vstore 1        # node = node->next;
+A7 FF D6 # goto -42        # goto <84:loop>
+# <86:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<is_aligned>
+00 01             # number of arguments = 1
+00 02             # number of local variables = 2
+00 6E             # code length = 110 bytes
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+62 08    # aaddf 8         # &B->start->next
+2F       # amload          # B->start->next
+36 01    # vstore 1        # node = B->start->next;
+# <90:loop>
+15 01    # vload 1         # node
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+A0 00 06 # if_cmpne +6     # if (node != B->point) goto <91:body>
+A7 00 23 # goto +35        # goto <92:exit>
+# <91:body>
+15 01    # vload 1         # node
+62 00    # aaddf 0         # &node->data
+2F       # amload          # node->data
+B8 00 05 # invokestatic 5  # gapbuf_at_right(node->data)
+10 01    # bipush 1        # true
+9F 00 0C # if_cmpeq +12    # if (gapbuf_at_right(node->data) == true) goto <94:else>
+A7 00 03 # goto +3         # goto <93:then>
+# <93:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <95:endif>
+# <94:else>
+# <95:endif>
+15 01    # vload 1         # node
+62 08    # aaddf 8         # &node->next
+2F       # amload          # node->next
+36 01    # vstore 1        # node = node->next;
+A7 FF D6 # goto -42        # goto <90:loop>
+# <92:exit>
+15 01    # vload 1         # node
+62 08    # aaddf 8         # &node->next
+2F       # amload          # node->next
+36 01    # vstore 1        # node = node->next;
+# <96:loop>
+15 01    # vload 1         # node
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+A0 00 06 # if_cmpne +6     # if (node != B->end) goto <97:body>
+A7 00 23 # goto +35        # goto <98:exit>
+# <97:body>
+15 01    # vload 1         # node
+62 00    # aaddf 0         # &node->data
+2F       # amload          # node->data
+B8 00 04 # invokestatic 4  # gapbuf_at_left(node->data)
+10 01    # bipush 1        # true
+9F 00 0C # if_cmpeq +12    # if (gapbuf_at_left(node->data) == true) goto <100:else>
+A7 00 03 # goto +3         # goto <99:then>
+# <99:then>
+10 00    # bipush 0        # false
+B0       # return          # 
+A7 00 03 # goto +3         # goto <101:endif>
+# <100:else>
+# <101:endif>
+15 01    # vload 1         # node
+62 08    # aaddf 8         # &node->next
+2F       # amload          # node->next
+36 01    # vstore 1        # node = node->next;
+A7 FF D6 # goto -42        # goto <96:loop>
+# <98:exit>
+10 01    # bipush 1        # true
+B0       # return          # 
+
+
+#<render_char>
+00 03             # number of arguments = 3
+00 05             # number of local variables = 5
+00 5E             # code length = 94 bytes
+15 01    # vload 1         # point
+01       # aconst_null     # NULL
+A0 00 06 # if_cmpne +6     # if (point != NULL) goto <216:and>
+A7 00 4A # goto +74        # goto <214:else>
+# <216:and>
+15 01    # vload 1         # point
+34       # cmload          # *(point)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (*(point) == true) goto <213:then>
+A7 00 3F # goto +63        # goto <214:else>
+# <213:then>
+15 00    # vload 0         # c
+10 0A    # bipush 10       # '\n'
+9F 00 06 # if_cmpeq +6     # if (c == '\n') goto <217:then>
+A7 00 1F # goto +31        # goto <218:else>
+# <217:then>
+15 02    # vload 2         # w
+10 20    # bipush 32       # ' '
+B7 00 02 # invokenative 2  # char_ord(' ')
+B7 00 01 # invokenative 1  # cc_highlight(char_ord(' '))
+B7 00 00 # invokenative 0  # c_waddch(w, cc_highlight(char_ord(' ')))
+57       # pop             # (ignore result)
+15 02    # vload 2         # w
+10 0A    # bipush 10       # '\n'
+B7 00 02 # invokenative 2  # char_ord('\n')
+B7 00 00 # invokenative 0  # c_waddch(w, char_ord('\n'))
+57       # pop             # (ignore result)
+A7 00 11 # goto +17        # goto <219:endif>
+# <218:else>
+15 02    # vload 2         # w
+15 00    # vload 0         # c
+B7 00 02 # invokenative 2  # char_ord(c)
+B7 00 01 # invokenative 1  # cc_highlight(char_ord(c))
+B7 00 00 # invokenative 0  # c_waddch(w, cc_highlight(char_ord(c)))
+57       # pop             # (ignore result)
+# <219:endif>
+15 01    # vload 1         # point
+10 00    # bipush 0        # false
+55       # cmstore         # *(point) = false;
+A7 00 0E # goto +14        # goto <215:endif>
+# <214:else>
+15 02    # vload 2         # w
+15 00    # vload 0         # c
+B7 00 02 # invokenative 2  # char_ord(c)
+B7 00 00 # invokenative 0  # c_waddch(w, char_ord(c))
+57       # pop             # (ignore result)
+# <215:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<render_gapbuf>
+00 03             # number of arguments = 3
+00 05             # number of local variables = 5
+00 5D             # code length = 93 bytes
+10 00    # bipush 0        # 0
+36 03    # vstore 3        # i = 0;
+# <220:loop>
+15 03    # vload 3         # i
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+A1 00 06 # if_icmplt +6    # if (i < G->gap_start) goto <221:body>
+A7 00 1D # goto +29        # goto <222:exit>
+# <221:body>
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 03    # vload 3         # i
+63       # aadds           # &G->buffer[i]
+34       # cmload          # G->buffer[i]
+01       # aconst_null     # NULL
+15 02    # vload 2         # w
+B8 00 1F # invokestatic 31 # render_char(G->buffer[i], NULL, w)
+57       # pop             # (ignore result)
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF DC # goto -36        # goto <220:loop>
+# <222:exit>
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+36 03    # vstore 3        # i = G->gap_end;
+# <223:loop>
+15 03    # vload 3         # i
+15 00    # vload 0         # G
+62 00    # aaddf 0         # &G->limit
+2E       # imload          # G->limit
+A1 00 06 # if_icmplt +6    # if (i < G->limit) goto <224:body>
+A7 00 1E # goto +30        # goto <225:exit>
+# <224:body>
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 03    # vload 3         # i
+63       # aadds           # &G->buffer[i]
+34       # cmload          # G->buffer[i]
+15 01    # vload 1         # point
+15 02    # vload 2         # w
+B8 00 1F # invokestatic 31 # render_char(G->buffer[i], point, w)
+57       # pop             # (ignore result)
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF DB # goto -37        # goto <223:loop>
+# <225:exit>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<render_buf>
+00 02             # number of arguments = 2
+00 05             # number of local variables = 5
+00 7D             # code length = 125 bytes
+BB 01    # new 1           # alloc(bool)
+36 02    # vstore 2        # point = alloc(bool);
+15 02    # vload 2         # point
+10 00    # bipush 0        # false
+55       # cmstore         # *(point) = false;
+15 01    # vload 1         # w
+10 00    # bipush 0        # 0
+10 00    # bipush 0        # 0
+B7 00 03 # invokenative 3  # c_wmove(w, 0, 0)
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+B7 00 04 # invokenative 4  # c_werase(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+62 08    # aaddf 8         # &B->start->next
+2F       # amload          # B->start->next
+36 03    # vstore 3        # L = B->start->next;
+# <226:loop>
+15 03    # vload 3         # L
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+A0 00 06 # if_cmpne +6     # if (L != B->end) goto <227:body>
+A7 00 2F # goto +47        # goto <228:exit>
+# <227:body>
+15 03    # vload 3         # L
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+9F 00 06 # if_cmpeq +6     # if (L == B->point) goto <229:then>
+A7 00 0B # goto +11        # goto <230:else>
+# <229:then>
+15 02    # vload 2         # point
+10 01    # bipush 1        # true
+55       # cmstore         # *(point) = true;
+A7 00 03 # goto +3         # goto <231:endif>
+# <230:else>
+# <231:endif>
+15 03    # vload 3         # L
+62 00    # aaddf 0         # &L->data
+2F       # amload          # L->data
+15 02    # vload 2         # point
+15 01    # vload 1         # w
+B8 00 20 # invokestatic 32 # render_gapbuf(L->data, point, w)
+57       # pop             # (ignore result)
+15 03    # vload 3         # L
+62 08    # aaddf 8         # &L->next
+2F       # amload          # L->next
+36 03    # vstore 3        # L = L->next;
+A7 FF CA # goto -54        # goto <226:loop>
+# <228:exit>
+15 02    # vload 2         # point
+34       # cmload          # *(point)
+10 01    # bipush 1        # true
+9F 00 06 # if_cmpeq +6     # if (*(point) == true) goto <232:then>
+A7 00 10 # goto +16        # goto <233:else>
+# <232:then>
+10 20    # bipush 32       # ' '
+15 02    # vload 2         # point
+15 01    # vload 1         # w
+B8 00 1F # invokestatic 31 # render_char(' ', point, w)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <234:endif>
+# <233:else>
+# <234:endif>
+15 01    # vload 1         # w
+B7 00 05 # invokenative 5  # c_wrefresh(w)
+57       # pop             # (ignore result)
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<render_topbar>
+00 01             # number of arguments = 1
+00 05             # number of local variables = 5
+00 54             # code length = 84 bytes
+15 00    # vload 0         # w
+B7 00 04 # invokenative 4  # c_werase(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 06 # invokenative 6  # cc_getbegx(w)
+36 01    # vstore 1        # i = cc_getbegx(w);
+# <235:loop>
+15 01    # vload 1         # i
+15 00    # vload 0         # w
+B7 00 07 # invokenative 7  # cc_getmaxx(w)
+A1 00 06 # if_icmplt +6    # if (i < cc_getmaxx(w)) goto <236:body>
+A7 00 1B # goto +27        # goto <237:exit>
+# <236:body>
+15 00    # vload 0         # w
+10 20    # bipush 32       # ' '
+B7 00 02 # invokenative 2  # char_ord(' ')
+B7 00 01 # invokenative 1  # cc_highlight(char_ord(' '))
+B7 00 00 # invokenative 0  # c_waddch(w, cc_highlight(char_ord(' ')))
+57       # pop             # (ignore result)
+15 01    # vload 1         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 01    # vstore 1        # i += 1;
+A7 FF DE # goto -34        # goto <235:loop>
+# <237:exit>
+15 00    # vload 0         # w
+10 00    # bipush 0        # 0
+10 01    # bipush 1        # 1
+B7 00 03 # invokenative 3  # c_wmove(w, 0, 1)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 08 # invokenative 8  # cc_wreverseon(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+14 00 00 # aldc 0          # s[0] = "E0, the minimalist editor -- ^X to exit, ^L to refresh"
+B7 00 09 # invokenative 9  # c_waddstr(w, "E0, the minimalist editor -- ^X to exit, ^L to refresh")
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 0A # invokenative 10 # cc_wreverseoff(w)
+57       # pop             # (ignore result)
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<render_botbar>
+00 01             # number of arguments = 1
+00 05             # number of local variables = 5
+00 35             # code length = 53 bytes
+15 00    # vload 0         # w
+B7 00 04 # invokenative 4  # c_werase(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 06 # invokenative 6  # cc_getbegx(w)
+36 01    # vstore 1        # i = cc_getbegx(w);
+# <238:loop>
+15 01    # vload 1         # i
+15 00    # vload 0         # w
+B7 00 07 # invokenative 7  # cc_getmaxx(w)
+A1 00 06 # if_icmplt +6    # if (i < cc_getmaxx(w)) goto <239:body>
+A7 00 1B # goto +27        # goto <240:exit>
+# <239:body>
+15 00    # vload 0         # w
+10 20    # bipush 32       # ' '
+B7 00 02 # invokenative 2  # char_ord(' ')
+B7 00 01 # invokenative 1  # cc_highlight(char_ord(' '))
+B7 00 00 # invokenative 0  # c_waddch(w, cc_highlight(char_ord(' ')))
+57       # pop             # (ignore result)
+15 01    # vload 1         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 01    # vstore 1        # i += 1;
+A7 FF DE # goto -34        # goto <238:loop>
+# <240:exit>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<vrender_char>
+00 02             # number of arguments = 2
+00 05             # number of local variables = 5
+00 6E             # code length = 110 bytes
+15 01    # vload 1         # c
+10 0A    # bipush 10       # '\n'
+9F 00 06 # if_cmpeq +6     # if (c == '\n') goto <241:then>
+A7 00 29 # goto +41        # goto <242:else>
+# <241:then>
+15 00    # vload 0         # w
+B7 00 0B # invokenative 11 # cc_wboldon(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 0C # invokenative 12 # cc_wunderon(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+10 23    # bipush 35       # '#'
+B7 00 02 # invokenative 2  # char_ord('#')
+B7 00 00 # invokenative 0  # c_waddch(w, char_ord('#'))
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 0D # invokenative 13 # cc_wunderoff(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 0E # invokenative 14 # cc_wboldoff(w)
+57       # pop             # (ignore result)
+A7 00 3E # goto +62        # goto <243:endif>
+# <242:else>
+15 01    # vload 1         # c
+10 09    # bipush 9        # '\t'
+9F 00 06 # if_cmpeq +6     # if (c == '\t') goto <244:then>
+A7 00 29 # goto +41        # goto <245:else>
+# <244:then>
+15 00    # vload 0         # w
+B7 00 0B # invokenative 11 # cc_wboldon(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 0C # invokenative 12 # cc_wunderon(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+10 3E    # bipush 62       # '>'
+B7 00 02 # invokenative 2  # char_ord('>')
+B7 00 00 # invokenative 0  # c_waddch(w, char_ord('>'))
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 0D # invokenative 13 # cc_wunderoff(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # w
+B7 00 0E # invokenative 14 # cc_wboldoff(w)
+57       # pop             # (ignore result)
+A7 00 0E # goto +14        # goto <246:endif>
+# <245:else>
+15 00    # vload 0         # w
+15 01    # vload 1         # c
+B7 00 02 # invokenative 2  # char_ord(c)
+B7 00 00 # invokenative 0  # c_waddch(w, char_ord(c))
+57       # pop             # (ignore result)
+# <246:endif>
+# <243:endif>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<vrender_gapbuf>
+00 02             # number of arguments = 2
+00 05             # number of local variables = 5
+00 B1             # code length = 177 bytes
+10 00    # bipush 0        # 0
+36 02    # vstore 2        # i = 0;
+# <247:loop>
+15 02    # vload 2         # i
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+A1 00 06 # if_icmplt +6    # if (i < G->gap_start) goto <248:body>
+A7 00 1C # goto +28        # goto <249:exit>
+# <248:body>
+15 01    # vload 1         # w
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 02    # vload 2         # i
+63       # aadds           # &G->buffer[i]
+34       # cmload          # G->buffer[i]
+B8 00 24 # invokestatic 36 # vrender_char(w, G->buffer[i])
+57       # pop             # (ignore result)
+15 02    # vload 2         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 02    # vstore 2        # i += 1;
+A7 FF DD # goto -35        # goto <247:loop>
+# <249:exit>
+15 01    # vload 1         # w
+B7 00 0B # invokenative 11 # cc_wboldon(w)
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+B7 00 0C # invokenative 12 # cc_wunderon(w)
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+10 5B    # bipush 91       # '['
+B7 00 02 # invokenative 2  # char_ord('[')
+B7 00 00 # invokenative 0  # c_waddch(w, char_ord('['))
+57       # pop             # (ignore result)
+15 00    # vload 0         # G
+62 10    # aaddf 16        # &G->gap_start
+2E       # imload          # G->gap_start
+36 02    # vstore 2        # i = G->gap_start;
+# <250:loop>
+15 02    # vload 2         # i
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+A1 00 06 # if_icmplt +6    # if (i < G->gap_end) goto <251:body>
+A7 00 18 # goto +24        # goto <252:exit>
+# <251:body>
+15 01    # vload 1         # w
+10 2E    # bipush 46       # '.'
+B7 00 02 # invokenative 2  # char_ord('.')
+B7 00 00 # invokenative 0  # c_waddch(w, char_ord('.'))
+57       # pop             # (ignore result)
+15 02    # vload 2         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 02    # vstore 2        # i += 1;
+A7 FF E1 # goto -31        # goto <250:loop>
+# <252:exit>
+15 01    # vload 1         # w
+10 5D    # bipush 93       # ']'
+B7 00 02 # invokenative 2  # char_ord(']')
+B7 00 00 # invokenative 0  # c_waddch(w, char_ord(']'))
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+B7 00 0D # invokenative 13 # cc_wunderoff(w)
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+B7 00 0E # invokenative 14 # cc_wboldoff(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # G
+62 14    # aaddf 20        # &G->gap_end
+2E       # imload          # G->gap_end
+36 02    # vstore 2        # i = G->gap_end;
+# <253:loop>
+15 02    # vload 2         # i
+15 00    # vload 0         # G
+62 00    # aaddf 0         # &G->limit
+2E       # imload          # G->limit
+A1 00 06 # if_icmplt +6    # if (i < G->limit) goto <254:body>
+A7 00 1C # goto +28        # goto <255:exit>
+# <254:body>
+15 01    # vload 1         # w
+15 00    # vload 0         # G
+62 08    # aaddf 8         # &G->buffer
+2F       # amload          # G->buffer
+15 02    # vload 2         # i
+63       # aadds           # &G->buffer[i]
+34       # cmload          # G->buffer[i]
+B8 00 24 # invokestatic 36 # vrender_char(w, G->buffer[i])
+57       # pop             # (ignore result)
+15 02    # vload 2         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 02    # vstore 2        # i += 1;
+A7 FF DD # goto -35        # goto <253:loop>
+# <255:exit>
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+
+#<vrender_buf>
+00 02             # number of arguments = 2
+00 05             # number of local variables = 5
+01 7E             # code length = 382 bytes
+15 01    # vload 1         # w
+B7 00 0F # invokenative 15 # c_wclear(w)
+57       # pop             # (ignore result)
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+9F 00 1C # if_cmpeq +28    # if (B->point->prev == B->start) goto <256:then>
+A7 00 03 # goto +3         # goto <259:or>
+# <259:or>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 10    # aaddf 16        # &B->point->prev
+2F       # amload          # B->point->prev
+62 10    # aaddf 16        # &B->point->prev->prev
+2F       # amload          # B->point->prev->prev
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+9F 00 06 # if_cmpeq +6     # if (B->point->prev->prev == B->start) goto <256:then>
+A7 00 1B # goto +27        # goto <257:else>
+# <256:then>
+15 01    # vload 1         # w
+B7 00 0B # invokenative 11 # cc_wboldon(w)
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+14 00 37 # aldc 55         # s[55] = " **"
+B7 00 09 # invokenative 9  # c_waddstr(w, " **")
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+B7 00 0E # invokenative 14 # cc_wboldoff(w)
+57       # pop             # (ignore result)
+A7 00 18 # goto +24        # goto <258:endif>
+# <257:else>
+15 01    # vload 1         # w
+B7 00 10 # invokenative 16 # cc_wdimon(w)
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+14 00 3B # aldc 59         # s[59] = "<.."
+B7 00 09 # invokenative 9  # c_waddstr(w, "<..")
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+B7 00 11 # invokenative 17 # cc_wdimoff(w)
+57       # pop             # (ignore result)
+# <258:endif>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+36 02    # vstore 2        # L = B->point;
+15 02    # vload 2         # L
+62 10    # aaddf 16        # &L->prev
+2F       # amload          # L->prev
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+A0 00 06 # if_cmpne +6     # if (L->prev != B->start) goto <260:then>
+A7 00 0D # goto +13        # goto <261:else>
+# <260:then>
+15 02    # vload 2         # L
+62 10    # aaddf 16        # &L->prev
+2F       # amload          # L->prev
+36 02    # vstore 2        # L = L->prev;
+A7 00 03 # goto +3         # goto <262:endif>
+# <261:else>
+# <262:endif>
+15 02    # vload 2         # L
+62 10    # aaddf 16        # &L->prev
+2F       # amload          # L->prev
+15 00    # vload 0         # B
+62 00    # aaddf 0         # &B->start
+2F       # amload          # B->start
+A0 00 06 # if_cmpne +6     # if (L->prev != B->start) goto <266:and>
+A7 00 20 # goto +32        # goto <264:else>
+# <266:and>
+15 02    # vload 2         # L
+62 08    # aaddf 8         # &L->next
+2F       # amload          # L->next
+62 08    # aaddf 8         # &L->next->next
+2F       # amload          # L->next->next
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+9F 00 06 # if_cmpeq +6     # if (L->next->next == B->end) goto <263:then>
+A7 00 0D # goto +13        # goto <264:else>
+# <263:then>
+15 02    # vload 2         # L
+62 10    # aaddf 16        # &L->prev
+2F       # amload          # L->prev
+36 02    # vstore 2        # L = L->prev;
+A7 00 03 # goto +3         # goto <265:endif>
+# <264:else>
+# <265:endif>
+10 00    # bipush 0        # 0
+36 03    # vstore 3        # i = 0;
+# <267:loop>
+15 03    # vload 3         # i
+10 03    # bipush 3        # 3
+A1 00 06 # if_icmplt +6    # if (i < 3) goto <270:and>
+A7 00 61 # goto +97        # goto <269:exit>
+# <270:and>
+15 02    # vload 2         # L
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+A0 00 06 # if_cmpne +6     # if (L != B->end) goto <268:body>
+A7 00 54 # goto +84        # goto <269:exit>
+# <268:body>
+15 01    # vload 1         # w
+14 00 3F # aldc 63         # s[63] = " <-> "
+B7 00 09 # invokenative 9  # c_waddstr(w, " <-> ")
+57       # pop             # (ignore result)
+15 02    # vload 2         # L
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+9F 00 06 # if_cmpeq +6     # if (L == B->point) goto <271:then>
+A7 00 0C # goto +12        # goto <272:else>
+# <271:then>
+15 01    # vload 1         # w
+B7 00 08 # invokenative 8  # cc_wreverseon(w)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <273:endif>
+# <272:else>
+# <273:endif>
+15 02    # vload 2         # L
+62 00    # aaddf 0         # &L->data
+2F       # amload          # L->data
+15 01    # vload 1         # w
+B8 00 25 # invokestatic 37 # vrender_gapbuf(L->data, w)
+57       # pop             # (ignore result)
+15 02    # vload 2         # L
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+9F 00 06 # if_cmpeq +6     # if (L == B->point) goto <274:then>
+A7 00 0C # goto +12        # goto <275:else>
+# <274:then>
+15 01    # vload 1         # w
+B7 00 0A # invokenative 10 # cc_wreverseoff(w)
+57       # pop             # (ignore result)
+A7 00 03 # goto +3         # goto <276:endif>
+# <275:else>
+# <276:endif>
+15 02    # vload 2         # L
+62 08    # aaddf 8         # &L->next
+2F       # amload          # L->next
+36 02    # vstore 2        # L = L->next;
+15 03    # vload 3         # i
+10 01    # bipush 1        # 1
+60       # iadd            # 
+36 03    # vstore 3        # i += 1;
+A7 FF 9B # goto -101       # goto <267:loop>
+# <269:exit>
+15 01    # vload 1         # w
+14 00 45 # aldc 69         # s[69] = " <-> "
+B7 00 09 # invokenative 9  # c_waddstr(w, " <-> ")
+57       # pop             # (ignore result)
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+9F 00 1C # if_cmpeq +28    # if (B->point->next == B->end) goto <277:then>
+A7 00 03 # goto +3         # goto <280:or>
+# <280:or>
+15 00    # vload 0         # B
+62 08    # aaddf 8         # &B->point
+2F       # amload          # B->point
+62 08    # aaddf 8         # &B->point->next
+2F       # amload          # B->point->next
+62 08    # aaddf 8         # &B->point->next->next
+2F       # amload          # B->point->next->next
+15 00    # vload 0         # B
+62 10    # aaddf 16        # &B->end
+2F       # amload          # B->end
+9F 00 06 # if_cmpeq +6     # if (B->point->next->next == B->end) goto <277:then>
+A7 00 1B # goto +27        # goto <278:else>
+# <277:then>
+15 01    # vload 1         # w
+B7 00 0B # invokenative 11 # cc_wboldon(w)
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+14 00 4B # aldc 75         # s[75] = "** "
+B7 00 09 # invokenative 9  # c_waddstr(w, "** ")
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+B7 00 0E # invokenative 14 # cc_wboldoff(w)
+57       # pop             # (ignore result)
+A7 00 18 # goto +24        # goto <279:endif>
+# <278:else>
+15 01    # vload 1         # w
+B7 00 10 # invokenative 16 # cc_wdimon(w)
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+14 00 4F # aldc 79         # s[79] = "..>"
+B7 00 09 # invokenative 9  # c_waddstr(w, "..>")
+57       # pop             # (ignore result)
+15 01    # vload 1         # w
+B7 00 11 # invokenative 17 # cc_wdimoff(w)
+57       # pop             # (ignore result)
+# <279:endif>
+15 01    # vload 1         # w
+B7 00 05 # invokenative 5  # c_wrefresh(w)
+57       # pop             # (ignore result)
+10 00    # bipush 0        # dummy return value
+B0       # return          # 
+
+00 22             # native count
+# native pool
+00 02 00 19       # c_waddch
+00 01 00 27       # cc_highlight
+00 01 00 5C       # char_ord
+00 03 00 1D       # c_wmove
+00 01 00 1C       # c_werase
+00 01 00 1E       # c_wrefresh
+00 01 00 21       # cc_getbegx
+00 01 00 23       # cc_getmaxx
+00 01 00 33       # cc_wreverseon
+00 02 00 1A       # c_waddstr
+00 01 00 32       # cc_wreverseoff
+00 01 00 2F       # cc_wboldon
+00 01 00 35       # cc_wunderon
+00 01 00 34       # cc_wunderoff
+00 01 00 2E       # cc_wboldoff
+00 01 00 1B       # c_wclear
+00 01 00 31       # cc_wdimon
+00 01 00 30       # cc_wdimoff
+00 00 00 13       # c_initscr
+00 00 00 0D       # c_cbreak
+00 00 00 16       # c_noecho
+00 02 00 14       # c_keypad
+00 01 00 0E       # c_curs_set
+00 01 00 24       # cc_getmaxy
+00 01 00 22       # cc_getbegy
+00 05 00 18       # c_subwin
+00 00 00 12       # c_getch
+00 01 00 28       # cc_key_is_backspace
+00 01 00 2B       # cc_key_is_left
+00 01 00 2C       # cc_key_is_right
+00 01 00 2A       # cc_key_is_enter
+00 01 00 5B       # char_chr
+00 00 00 10       # c_endwin
+00 01 00 06       # print
+

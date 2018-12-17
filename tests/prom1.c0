@@ -1,0 +1,21 @@
+#use <string>
+#use <conio>
+#use <util>
+
+struct gap_buffer{
+  int limit;
+  char[] buffer;
+  int gap_start;
+  int gap_end;
+};
+typedef struct gap_buffer* gapbuf;
+
+int main(){
+  gapbuf gb = alloc(struct gap_buffer);
+  gb->limit = 65536;
+  gb->buffer = alloc_array(char,65536);
+  gb->gap_start = 48122;
+  gb->gap_end = gb->gap_start;
+  return 1;
+}
+
